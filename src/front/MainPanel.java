@@ -40,7 +40,7 @@ public class MainPanel extends JPanel {
 		service_panel = new JPanel();
 		service_panel.setLayout(new GridLayout(1,1));
 		service_panel.setBackground(new Color(255, 255, 255));
-		service_panel.setBounds(0, 40, 1280, 680);
+		service_panel.setBounds(0, 41, 1280, 679);
 		add(service_panel);
 	
 		/*상품 목록 패널*/

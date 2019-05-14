@@ -1,11 +1,14 @@
 package front.service_panel;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -21,23 +24,25 @@ public class GoodsListPanel extends JPanel{
 	private JPanel category_panel;
 	private JButton [] category_button;
 	private JPanel goods_list_panel;
+	private PagePanel page_panel;
 	
 	private MainFrame mf;
 	private Set set;
 	
+	private Goods [] goods_list;
 	
 	public GoodsListPanel(MainFrame mf, Set set) {
 		
 		this.mf = mf;
 		this.set = set;
 		
-		setBackground(new Color(123, 0, 0));
+		setLayout(null);
 		
 		/*상품 카테고리 선택 패널*/
 		category_panel = new JPanel();
 		category_panel.setLayout(null);
 		category_panel.setBounds(0, 0, 150, 670);
-		category_panel.setBackground(new Color(109, 177, 109));
+		category_panel.setBackground(new Color(199, 199, 199));
 		add(category_panel);
 		
 		/*상품 카테고리 선택 버튼*/
@@ -45,14 +50,29 @@ public class GoodsListPanel extends JPanel{
 		category_button = new JButton[4];
 		for (int i=0; i<4; ++i) {
 			category_button[i] = new JButton(button_name[i]);
+			category_button[i].setFont(new Font("맑은 고딕", Font.BOLD, 20));
+			category_button[i].setBackground(Color.WHITE);
 			category_button[i].setBounds(0, 100 + 70*i, 150, 70);
 			category_button[i].addActionListener(new CategoryButtonListener());
 			category_panel.add(category_button[i]);
 		}
 		
+		/*상품 목록 패널*/
+		goods_list_panel = new JPanel();
+		goods_list_panel.setLayout(null);
+		goods_list_panel.setBounds(250, 100, 910, 370);	// width = 660 height = 270
+		goods_list_panel.setBackground(Color.WHITE);
+		add(goods_list_panel);
 		
-	}	
+		/*페이지 패널*/
+		page_panel = new PagePanel();
+		page_panel.setBounds(250, 480, 910, 20);
+		add(page_panel);
 
+		/*초기화*/
+		show_goods_list_page(0, 0);
+	}
+	
 	/*상품 패널*/
 	class GoodsPanel extends JPanel {
 		
@@ -63,16 +83,24 @@ public class GoodsListPanel extends JPanel{
 		private MainFrame mf;
 		private Goods goods;
 		
-		public GoodsPanel(MainFrame mf, Goods goods) {
+		public GoodsPanel(MainFrame mf, Goods goods, int index) {
 			
 			this.mf = mf;
 			this.goods = goods;
+			
 			setLayout(null);
 			
 			goods_name_panel = new JPanel();
+			goods_name_panel.setBounds(10, 300, 170, 35);
+			
+			/*상품 이름 출력*/
 			goods_name_label = new JLabel(goods.get_name());
 			goods_name_panel.add(goods_name_label);
-			
+			add(goods_name_panel);
+						
+			addMouseListener(new MouseActionListener());
+			setBounds(10 + index % 4 * 230, 10, 200, 350);	// width = 190, height = 340
+			setBackground(Color.WHITE);
 			setBorder(new LineBorder(Color.BLACK));	
 		}
 		
@@ -104,6 +132,34 @@ public class GoodsListPanel extends JPanel{
 		}
 	}
 	
+	/*페이지 패널*/
+	class PagePanel extends JPanel {
+		
+		JLabel [] page_num;
+		
+		public PagePanel() {
+			
+			setBackground(Color.black);
+		}
+		
+		public void update_page(int total_page) {
+			
+			removeAll();
+			
+			/*10개가 넘어갈 경우 또 생각해보자*/
+			page_num = new JLabel[total_page];
+			
+			for (int i=0; i<total_page; ++i) {
+				page_num[i] = new JLabel(Integer.toString(i+1));
+				add(page_num[i]);
+			}
+			
+			revalidate();
+			repaint();
+		}
+	}
+	
+	/*카테고리 버튼 이벤트 리스너*/
 	class CategoryButtonListener implements ActionListener {
 
 		@Override
@@ -114,15 +170,44 @@ public class GoodsListPanel extends JPanel{
 			switch(btn.getText()) {
 			
 			case "전체":
+				show_goods_list_page(0, 0);
 				break;
 			case "스마트폰":
+				show_goods_list_page(1, 0);
 				break;
 			case "악세사리":
+				show_goods_list_page(2, 0);
 				break;
 			case "기타":
+				show_goods_list_page(3, 0);
 				break;
 				
 			}
 		}
+	}
+	
+	/*상품 목록 갱신*/
+	public void show_goods_list_page(int select, int page) {
+		
+		goods_list = set.GetGoodsList();
+		
+		goods_list_panel.removeAll();
+		
+		if (select == 0) {
+			
+			page_panel.update_page(goods_list.length);
+			
+			for (int i=0; i<4; ++i) {
+				
+				try {
+					
+					goods_list_panel.add(new GoodsPanel(mf, goods_list[i + page*4], i));
+					
+				} catch (ArrayIndexOutOfBoundsException e) { break; }
+			}
+		}
+		
+		goods_list_panel.revalidate();
+		goods_list_panel.repaint();
 	}
 }
