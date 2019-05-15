@@ -25,5 +25,5 @@ public class Goods {
 	public int get_count() { return count; }
 	public boolean is_smartphone() { return smartphone; }
 	public int get_goods_id() { return goods_id; }	
-	public String get_explanation = explanation;
+	public String get_explanation() { return explanation; }
 }

@@ -29,14 +29,12 @@ public class StartPanel extends JPanel {
 	private Vector<Component> order;	// ÅÇ ¼ø¼­ ÁöÁ¤
 	
 	private MainFrame mf;
-	private Container c;
 	private Set set;
 	
 	
 	public StartPanel(MainFrame mf, Set set) {
 		
 		this.mf = mf;
-		this.c = getParent();
 		this.set =set;
 		
 		setLayout(null);
@@ -158,7 +156,7 @@ public class StartPanel extends JPanel {
 				break;
 				
 			case "Register":
-				new RegisterAccountFrame(set, c);
+				new RegisterAccountFrame(mf, set);
 				
 				break;			
 			}				

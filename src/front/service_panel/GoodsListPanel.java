@@ -1,6 +1,7 @@
 package front.service_panel;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -8,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -30,6 +32,7 @@ public class GoodsListPanel extends JPanel{
 	private Set set;
 	
 	private Goods [] goods_list;
+	private int select = 0;
 	
 	public GoodsListPanel(MainFrame mf, Set set) {
 		
@@ -66,7 +69,7 @@ public class GoodsListPanel extends JPanel{
 		
 		/*페이지 패널*/
 		page_panel = new PagePanel();
-		page_panel.setBounds(250, 480, 910, 20);
+		page_panel.setBounds(250, 480, 910, 30);
 		add(page_panel);
 
 		/*초기화*/
@@ -90,15 +93,18 @@ public class GoodsListPanel extends JPanel{
 			
 			setLayout(null);
 			
+			/*상품 이름 패널*/
 			goods_name_panel = new JPanel();
-			goods_name_panel.setBounds(10, 300, 170, 35);
+			goods_name_panel.setBounds(15, 300, 170, 35);
 			
 			/*상품 이름 출력*/
 			goods_name_label = new JLabel(goods.get_name());
+			goods_name_label.setFont(new Font("맑은 고딕", Font.BOLD, 17));
 			goods_name_panel.add(goods_name_label);
 			add(goods_name_panel);
-						
+			
 			addMouseListener(new MouseActionListener());
+			
 			setBounds(10 + index % 4 * 230, 10, 200, 350);	// width = 190, height = 340
 			setBackground(Color.WHITE);
 			setBorder(new LineBorder(Color.BLACK));	
@@ -110,7 +116,7 @@ public class GoodsListPanel extends JPanel{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+				new GoodsInfoFrame(mf, set, goods);
 			}
 
 			@Override
@@ -135,14 +141,18 @@ public class GoodsListPanel extends JPanel{
 	/*페이지 패널*/
 	class PagePanel extends JPanel {
 		
-		JLabel [] page_num;
+		private JLabel [] page_num;
+		private int total_page = 0;
 		
 		public PagePanel() {
 			
-			setBackground(Color.black);
+			setBackground(Color.white);
 		}
 		
-		public void update_page(int total_page) {
+		/*페이지 개수 갱신*/
+		public void update_page(int total_goods_num) {
+			
+			total_page = total_goods_num / 4 + 1;
 			
 			removeAll();
 			
@@ -151,11 +161,36 @@ public class GoodsListPanel extends JPanel{
 			
 			for (int i=0; i<total_page; ++i) {
 				page_num[i] = new JLabel(Integer.toString(i+1));
+				page_num[i].setFont(new Font("맑은 고딕", Font.BOLD, 15));
+				page_num[i].addMouseListener(new MouseActionListener());
 				add(page_num[i]);
 			}
 			
 			revalidate();
 			repaint();
+		}
+		
+		public void select_page(int page) {
+			page_num[page].setForeground(Color.BLUE);
+		}
+		
+		/*페이지 숫자 이벤트 리스너*/
+		class MouseActionListener extends MouseAdapter {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				JLabel label = (JLabel)e.getSource();
+				show_goods_list_page(select, Integer.valueOf(label.getText()) - 1);
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				JLabel label = (JLabel)e.getSource();
+				label.setCursor(new Cursor(Cursor.HAND_CURSOR));
+				
+			}
 		}
 	}
 	
@@ -170,15 +205,19 @@ public class GoodsListPanel extends JPanel{
 			switch(btn.getText()) {
 			
 			case "전체":
+				select = 0;
 				show_goods_list_page(0, 0);
 				break;
 			case "스마트폰":
+				select = 1;
 				show_goods_list_page(1, 0);
 				break;
 			case "악세사리":
+				select = 2;
 				show_goods_list_page(2, 0);
 				break;
 			case "기타":
+				select = 3;
 				show_goods_list_page(3, 0);
 				break;
 				
@@ -196,6 +235,7 @@ public class GoodsListPanel extends JPanel{
 		if (select == 0) {
 			
 			page_panel.update_page(goods_list.length);
+			page_panel.select_page(page);
 			
 			for (int i=0; i<4; ++i) {
 				

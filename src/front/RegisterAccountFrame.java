@@ -1,7 +1,6 @@
 package front;
 
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -9,13 +8,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import back.Set;
+import main.MainFrame;
 
 
 public class RegisterAccountFrame extends JDialog {
@@ -28,8 +27,8 @@ public class RegisterAccountFrame extends JDialog {
 	private Set set;
 	private boolean check_duplication = false;
 	
-	public RegisterAccountFrame(Set set, Container c) {
-		super((JFrame) c, true);	// 기존 창 선택 불가
+	public RegisterAccountFrame(MainFrame mf, Set set) {
+		super(mf, true);	// 기존 창 선택 불가
 		
 		this.set = set;
 		
@@ -38,8 +37,8 @@ public class RegisterAccountFrame extends JDialog {
 		
 		/*사용자 정보  라벨 출력*/
 		String [] label_name = {"ID", "PW", "이름", "생년월일"};
-		label = new JLabel[4];
-		for (int i=0; i<4; ++i) {
+		label = new JLabel[label_name.length];
+		for (int i=0; i<label.length; ++i) {
 			label[i] = new JLabel(label_name[i]);
 			label[i].setFont(new Font("함초롬돋움", Font.BOLD, 18));
 			label[i].setHorizontalAlignment(JLabel.CENTER);
@@ -82,8 +81,8 @@ public class RegisterAccountFrame extends JDialog {
 		}
 		
 		setResizable(false);
-		setLocationRelativeTo(null);
 		setSize(340,290);
+		setLocationRelativeTo(null);
 		setVisible(true);
 	}
 	
