@@ -176,7 +176,6 @@ public class GoodsInfoFrame extends JDialog {
 			if (goods.is_smartphone())
 				new DetailedSpecificationFrame(mf, (Smartphone)goods);
 		}
-		
 	}
 
 	/*버튼 이벤트 리스너*/

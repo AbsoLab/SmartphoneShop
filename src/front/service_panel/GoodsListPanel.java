@@ -3,14 +3,11 @@ package front.service_panel;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -86,7 +83,7 @@ public class GoodsListPanel extends JPanel{
 		private MainFrame mf;
 		private Goods goods;
 		
-		public GoodsPanel(MainFrame mf, Goods goods, int index) {
+		public GoodsPanel(MainFrame mf, Goods goods) {
 			
 			this.mf = mf;
 			this.goods = goods;
@@ -105,7 +102,7 @@ public class GoodsListPanel extends JPanel{
 			
 			addMouseListener(new MouseActionListener());
 			
-			setBounds(10 + index % 4 * 230, 10, 200, 350);	// width = 190, height = 340
+			setSize(200, 350);
 			setBackground(Color.WHITE);
 			setBorder(new LineBorder(Color.BLACK));	
 		}
@@ -141,29 +138,26 @@ public class GoodsListPanel extends JPanel{
 	/*페이지 패널*/
 	class PagePanel extends JPanel {
 		
-		private JLabel [] page_num;
-		private int total_page = 0;
-		
+		private JLabel [] page_num_label;
+
 		public PagePanel() {
 			
 			setBackground(Color.white);
 		}
 		
 		/*페이지 개수 갱신*/
-		public void update_page(int total_goods_num) {
-			
-			total_page = total_goods_num / 4 + 1;
+		public void update_page(int total_page_num) {
 			
 			removeAll();
 			
-			/*10개가 넘어갈 경우 또 생각해보자*/
-			page_num = new JLabel[total_page];
+			/*10개가 넘어갈 경우 도 생각해보자*/
+			page_num_label = new JLabel[total_page_num];
 			
-			for (int i=0; i<total_page; ++i) {
-				page_num[i] = new JLabel(Integer.toString(i+1));
-				page_num[i].setFont(new Font("맑은 고딕", Font.BOLD, 15));
-				page_num[i].addMouseListener(new MouseActionListener());
-				add(page_num[i]);
+			for (int i=0; i<total_page_num; ++i) {
+				page_num_label[i] = new JLabel(Integer.toString(i+1));
+				page_num_label[i].setFont(new Font("맑은 고딕", Font.BOLD, 15));
+				page_num_label[i].addMouseListener(new MouseActionListener());
+				add(page_num_label[i]);
 			}
 			
 			revalidate();
@@ -171,7 +165,7 @@ public class GoodsListPanel extends JPanel{
 		}
 		
 		public void select_page(int page) {
-			page_num[page].setForeground(Color.BLUE);
+			page_num_label[page].setForeground(Color.BLUE);
 		}
 		
 		/*페이지 숫자 이벤트 리스너*/
@@ -189,7 +183,6 @@ public class GoodsListPanel extends JPanel{
 				// TODO Auto-generated method stub
 				JLabel label = (JLabel)e.getSource();
 				label.setCursor(new Cursor(Cursor.HAND_CURSOR));
-				
 			}
 		}
 	}
@@ -226,27 +219,26 @@ public class GoodsListPanel extends JPanel{
 	}
 	
 	/*상품 목록 갱신*/
-	public void show_goods_list_page(int select, int page) {
+	private void show_goods_list_page(int select, int current_page_num) {
 		
-		goods_list = set.GetGoodsList();
-		
+		goods_list = set.GetGoodsList();	
 		goods_list_panel.removeAll();
 		
 		if (select == 0) {
 			
-			page_panel.update_page(goods_list.length);
-			page_panel.select_page(page);
+			page_panel.update_page(goods_list.length / 4 + 1);
+			page_panel.select_page(current_page_num);
 			
 			for (int i=0; i<4; ++i) {
 				
 				try {
-					
-					goods_list_panel.add(new GoodsPanel(mf, goods_list[i + page*4], i));
-					
+					GoodsPanel temp_panel = new GoodsPanel(mf, goods_list[i + current_page_num*4]);
+					temp_panel.setLocation(10 + i * 230, 10);
+					goods_list_panel.add(temp_panel);
 				} catch (ArrayIndexOutOfBoundsException e) { break; }
 			}
 		}
-		
+
 		goods_list_panel.revalidate();
 		goods_list_panel.repaint();
 	}
