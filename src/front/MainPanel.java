@@ -12,14 +12,13 @@ import javax.swing.JPanel;
 
 import back.Set;
 import front.service_panel.GoodsListPanel;
+import front.service_panel.KartListPanel;
 import main.MainFrame;
 
 public class MainPanel extends JPanel {
 	
 	private SelectServicePanel select_service_panel;
 	private JPanel service_panel;
-	
-	private GoodsListPanel goods_list_panel;
 	
 	private MainFrame mf;
 	private Set set;
@@ -42,11 +41,6 @@ public class MainPanel extends JPanel {
 		service_panel.setBackground(new Color(255, 255, 255));
 		service_panel.setBounds(0, 41, 1280, 679);
 		add(service_panel);
-	
-		/*상품 목록 패널*/
-		goods_list_panel = new GoodsListPanel(mf, set);
-		
-		
 	}
 	
 	/*서비스 선택 패널*/
@@ -91,18 +85,24 @@ public class MainPanel extends JPanel {
 			
 			JButton btn = (JButton)e.getSource();
 			
+			service_panel.removeAll();
+			
 			switch(btn.getText()) {
 			
 			case "상품목록":
-				service_panel.removeAll();
-				service_panel.add(goods_list_panel);
-				service_panel.revalidate();
-				service_panel.repaint();
+				service_panel.add(new GoodsListPanel(mf, set));
+				break;
+				
+			case "장바구니":
+				service_panel.add(new KartListPanel(mf, set));
 				break;
 				
 			case "로그아웃":
 				break;
 			}
+			
+			service_panel.revalidate();
+			service_panel.repaint();
 		}
 	}
 }

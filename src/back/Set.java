@@ -70,6 +70,11 @@ public class Set {
 		return true;
 	}
 	
+	/*장바구니 목록 로딩*/
+	public Goods [] get_kart_list() {
+		return null;
+	}
+	
 	/*구매*/
 	public boolean Purchase(/*구매 정보*/) {
 		
