@@ -188,7 +188,7 @@ public class GoodsInfoFrame extends JDialog {
 			JButton btn = (JButton)e.getSource();
 			switch(btn.getText()) {
 			case "장바구니 담기":
-				set.AddKart(goods.get_goods_id(), 1);
+				set.AddKart(goods);
 				break;
 			case "닫기":
 				dispose();

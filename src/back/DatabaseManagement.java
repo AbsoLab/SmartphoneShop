@@ -15,6 +15,8 @@ public class DatabaseManagement {
 	private Statement statement;
 	
 	private static AccountManager account_manager; 
+	private static GoodsManager goods_manager;
+	private static ShoppingKartManager shopping_kart_manager; 
 	
 	public DatabaseManagement() {
 		
@@ -24,6 +26,8 @@ public class DatabaseManagement {
 			statement = connection.createStatement();
 		
 			account_manager = new AccountManager(statement);
+			goods_manager = new GoodsManager(statement);
+			shopping_kart_manager = new ShoppingKartManager(statement);
 			
 		} catch(Exception e) {
 			System.out.println("½ÇÆÐ~");
@@ -31,8 +35,9 @@ public class DatabaseManagement {
 	}
 	
 	public AccountManager getAccountManager() { return account_manager; }
-		
-		
+	public GoodsManager getGoodsManager() { return goods_manager; }
+	public ShoppingKartManager getShoppingKartManager() { return shopping_kart_manager; }
+	
 	/*
 	statement.close();
 	connection.close();

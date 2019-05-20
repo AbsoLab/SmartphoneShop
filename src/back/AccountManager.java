@@ -14,19 +14,18 @@ public class AccountManager {
 		this.st = st;
 	}
 	
+	/*신규 유저 생성*/
 	public boolean AddNewAccount(User user) {
 		
 		String sql;
-		sql = "insert into ACCOUNT values(\"" + user.get_ID() + "\", \"" + user.get_PW() + "\", \"" + user.get_name() + "\", " + user.get_birth_date() + ", " + 3 + ")";
-
-		try {
-			st.executeUpdate(sql);
-
-		} catch (Exception e) { return false; }
+		sql = "insert into ACCOUNT values(\"" + user.get_ID() + "\", \"" + user.get_PW() + "\", \"" + user.get_name() + "\", " + user.get_birth_date() + ")";
+		
+		try { st.executeUpdate(sql); } catch (Exception e) { return false; }
 		
 		return true;
 	}
 	
+	/*존재하는 ID인지 확인*/
 	public boolean CheckID(String ID) {
 		
 		String sql;
@@ -47,27 +46,30 @@ public class AccountManager {
 		return false;
 	}
 	
+	/*ID에 해당하는 유저정보 받아오기*/
 	public User GetAccount(String ID) {
 		
-		String sql;
-		sql = "SELECT * FROM ACCOUNT";
+		String sql = "SELECT * FROM ACCOUNT";
 		
 		ResultSet rs;
+		
 		try {
 			rs = st.executeQuery(sql);
 			
 			while(rs.next()) {
 				if (ID.equals(rs.getString("id"))) {
-					return new User(rs.getString("id"), rs.getString("pw"), rs.getString("name"), rs.getInt("birth_date"), rs.getInt("pid"));
+					return new User(rs.getString("id"), rs.getString("pw"), rs.getString("name"), rs.getInt("birth_date"));
 				}
 			}
 			rs.close();
+			
 		} catch (Exception e) { }
 		
 		return null;
 	}
 	
-	public int Login(String ID, String PW) {
+	/*ID PW가 둘다 맞는 지 확인*/
+	public boolean Login(String ID, String PW) {
 		
 		String sql;
 		sql = "SELECT * FROM ACCOUNT";
@@ -82,19 +84,18 @@ public class AccountManager {
 					
 					if (PW.equals(rs.getString("pw"))) {
 						
-						return rs.getInt("pid");
+						return true;
 						
 					} else {
 						
-						return -1;
+						return false;
 					}
 				}
 			}
-			
 			rs.close();
 		} catch (Exception e) { }
 		
-		return -1;
+		return false;
 		
 	}
 }
