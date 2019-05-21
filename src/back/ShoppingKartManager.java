@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import structure.Goods;
+import structure.Order;
 import structure.ShoppingKart;
 
 public class ShoppingKartManager {
@@ -75,9 +75,28 @@ public class ShoppingKartManager {
 	}
 
 	/*장바구니 구매*/
-	public boolean Purchase(String ID) {
+	public boolean Purchase(String ID, Order order) {
 		
-		return true;
+		String sql = "select * from META_DATA";
+		ResultSet rs;
+		int order_num = 0;
+		try {
+			rs = st.executeQuery(sql);
+			rs.first();
+			order_num = rs.getInt("order_number");
+			sql = "update META_DATA set order_number=" + (order_num + 1);
+			st.execute(sql);
+			sql = "insert into ORDER_INFO values('" + ID + "', '" + order.get_name() + "', '" + order.get_address() + "', '" + order.get_phone_num() + "', '" + order.get_card_corporation() + "', '" + order.get_card_num() + "', " + order.get_total_price() + ", " + (order_num+ 1 ) + ")";
+			st.execute(sql);
+			ShoppingKart [] kart = GetKartList(ID);
+			
+			for (int i=0; i<kart.length; ++i) {
+				sql = "insert into ORDER_LIST values(" + order_num + ", '" + kart[i].get_name() + "', " + kart[i].get_count() + ")";
+				st.execute(sql);
+			}
+		} catch (SQLException e) {System.out.println("실패~ : " + sql); return false;}
+		
+		return true;		
 	}
 	
 	/*장바구니 비우기*/

@@ -140,8 +140,8 @@ public class GoodsInfoFrame extends JDialog {
 			left_label = new JLabel[label_name.length];
 			for (int i=0; i<left_label.length; ++i) {
 				left_label[i] = new JLabel(label_name[i]);
-				left_label[i].setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 13));
-				left_label[i].setBounds(20, 20 + 30 * i, 90, 30);
+				left_label[i].setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
+				left_label[i].setBounds(20, 20 + 40 * i, 90, 30);
 				add(left_label[i]);
 			}
 			
@@ -155,13 +155,13 @@ public class GoodsInfoFrame extends JDialog {
 			right_label[6] = new JLabel(goods.get_release_date());
 			
 			for (int i=0; i<right_label.length; ++i) {
-				right_label[i].setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 13));
-				right_label[i].setBounds(120, 20 + 30 * i, 120, 30);
+				right_label[i].setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
+				right_label[i].setBounds(130, 20 + 40 * i, 380, 30);
 				add(right_label[i]);
 			}
 			
 			setResizable(false);
-			setSize(320, 320);
+			setSize(480, 360);
 			setLocationRelativeTo(mf);
 			setVisible(true);
 		}

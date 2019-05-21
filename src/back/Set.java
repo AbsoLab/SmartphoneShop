@@ -1,6 +1,7 @@
 package back;
 
 import structure.Goods;
+import structure.Order;
 import structure.ShoppingKart;
 import structure.User;
 
@@ -52,9 +53,11 @@ public class Set {
 	}
 	
 	/*구매*/
-	public boolean Purchase(/*구매 정보*/) {
+	public boolean Purchase(Order order) {
 		
 		/*장바구니 데이터를 기반으로 구매 진행*/
+		DBMS.getShoppingKartManager().Purchase(logined_id, order);
+		EmptyKart();
 		return true;
 	}
 	

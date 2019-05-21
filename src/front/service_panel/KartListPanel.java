@@ -235,6 +235,7 @@ public class KartListPanel extends JPanel{
 			JButton btn = (JButton)e.getSource();
 			switch(btn.getText()) {
 			case "구매":
+				purchase();
 				break;
 			case "비우기":
 				empty_kart();
@@ -274,7 +275,8 @@ public class KartListPanel extends JPanel{
 	
 	/*구매*/
 	private void purchase() {
-		
+		new PurchaseFrame(mf, set);
+		show_kart_list_page(0);
 	}
 	
 	/*장바구니 비우기*/
