@@ -55,7 +55,7 @@ public class GoodsInfoFrame extends JDialog {
 		add(goods_info_panel);
 		
 		/*상세 스펙 버튼*/
-		if (goods.is_smartphone()) {
+		if (goods.get_category() == 1) {
 			show_detailed_spec_label = new JLabel("상세 정보");
 			show_detailed_spec_label.setHorizontalAlignment(JLabel.CENTER);
 			show_detailed_spec_label.setBorder(new LineBorder(new Color(109, 109, 255), 2));
@@ -173,7 +173,7 @@ public class GoodsInfoFrame extends JDialog {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			// TODO Auto-generated method stub	
-			if (goods.is_smartphone())
+			if (goods.get_category() == 1)
 				new DetailedSpecificationFrame(mf, (Smartphone)goods);
 		}
 	}

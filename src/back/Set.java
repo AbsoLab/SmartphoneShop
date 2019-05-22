@@ -3,6 +3,7 @@ package back;
 import structure.Goods;
 import structure.Order;
 import structure.ShoppingKart;
+import structure.Smartphone;
 import structure.User;
 
 public class Set {
@@ -32,9 +33,24 @@ public class Set {
 		return true;
 	}
 
-	/*상품 목록 로딩*/
+	/*전체 상품 목록 로딩*/
 	public Goods [] GetGoodsList() {
 		return DBMS.getGoodsManager().get_all_goods();		
+	}
+	
+	/*스마트폰만 로딩*/
+	public Smartphone [] GetSmartphoneList() {
+		return DBMS.getGoodsManager().get_smartphone();
+	}
+	
+	/*악세사리만 로딩*/
+	public Goods [] GetAccessoryList() {
+		return DBMS.getGoodsManager().get_accessory();
+	}
+	
+	/*기타만 로딩*/
+	public Goods [] GetEtcList() {
+		return DBMS.getGoodsManager().get_etc();
 	}
 	
 	/*장바구니 추가*/

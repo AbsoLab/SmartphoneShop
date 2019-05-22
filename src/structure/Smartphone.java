@@ -6,8 +6,8 @@ public class Smartphone extends Goods {
 	private Specification spec;
 	private String release_date;
 	
-	public Smartphone(String name, int price,boolean smartphone, String explanation) {
-		super(name, price, smartphone, explanation);
+	public Smartphone(String name, int price, int category, String explanation) {
+		super(name, price, category, explanation);
 		spec = new Specification();
 	}
 	

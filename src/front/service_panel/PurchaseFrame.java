@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -80,16 +82,19 @@ public class PurchaseFrame extends JDialog {
 			info_textfield[i] = new JTextField();
 			info_textfield[i].setFont(new Font("맑은 고딕", Font.BOLD, 15));
 			info_textfield[i].setLocation(150, 50 + 40 * i);
+			info_textfield[i].addKeyListener(new LimitLengthEvnetListener(i));
 			add(info_textfield[i]);
 		}
 		for (int i=3; i<7; ++i) {
 			if (i==5 || i==6) {
 				info_textfield[i]= new JPasswordField();
+				info_textfield[i].setHorizontalAlignment(JTextField.CENTER);
 			} else {				
 				info_textfield[i]= new JTextField();
 			}
 			info_textfield[i].setFont(new Font("맑은 고딕", Font.BOLD, 15));
 			info_textfield[i].setLocation(150, 100 + 40 * i);
+			info_textfield[i].addKeyListener(new LimitLengthEvnetListener(i));
 			add(info_textfield[i]);
 		}
 		info_textfield[0].setSize(90, 30);
@@ -125,6 +130,47 @@ public class PurchaseFrame extends JDialog {
 		setVisible(true);
 	}
 	
+	/*입력 개수 제한*/
+	class LimitLengthEvnetListener extends KeyAdapter {
+
+		private int separator;
+		
+		public LimitLengthEvnetListener(int separator) {
+			this.separator = separator;
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			JTextField text_field = (JTextField)e.getSource();
+			
+			int max_length = 0;
+			switch(separator) {
+			case 0:
+				max_length = 20;
+				break;
+			case 1:
+				max_length = 60;
+				break;
+			case 2: case 3:
+				max_length = 13;
+				break;
+			case 4:
+				max_length = 19;
+				break;
+			case 5:
+				max_length = 4;
+				break;
+			case 6:
+				max_length = 3;
+				break;
+			}
+			
+			if (text_field.getText().length() >= max_length) e.consume();
+		}	
+	}
+	
+	/*구매, 취소 버튼 이벤트 리스너*/
 	class ButtonEventListener implements ActionListener {
 
 		@Override
@@ -149,6 +195,7 @@ public class PurchaseFrame extends JDialog {
 		
 	}
 	
+	/*빈칸 확인*/
 	private boolean check_purchase() {
 		
 		String [] value = new String[info_textfield.length];

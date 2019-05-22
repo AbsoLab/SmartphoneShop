@@ -76,7 +76,7 @@ public class GoodsListPanel extends JPanel{
 	/*상품 패널*/
 	class GoodsPanel extends JPanel {
 		
-		private Image goods_image;
+		private JPanel goods_image_panel;
 		private JPanel goods_name_panel;
 		private JLabel goods_name_label;
 		
@@ -89,6 +89,11 @@ public class GoodsListPanel extends JPanel{
 			this.goods = goods;
 			
 			setLayout(null);
+			
+			/*상품 이미지 패널*/
+			goods_image_panel = new JPanel();
+			goods_image_panel.setBounds(10, 10, 180, 250);
+			add(goods_image_panel);
 			
 			/*상품 이름 패널*/
 			goods_name_panel = new JPanel();
@@ -220,22 +225,34 @@ public class GoodsListPanel extends JPanel{
 	/*상품 목록 갱신*/
 	private void show_goods_list_page(int select, int current_page_num) {
 		
-		goods_list = set.GetGoodsList();	
-		goods_list_panel.removeAll();
+		switch(select) {
+		case 0:
+			goods_list = set.GetGoodsList();
+			break;
+		case 1:
+			goods_list = set.GetSmartphoneList();
+			break;
+		case 2:
+			goods_list = set.GetAccessoryList();
+			break;
+		case 3:
+			goods_list = set.GetEtcList();
+			break;
+		}
 		
-		if (select == 0) {
+
+		goods_list_panel.removeAll();
 			
-			page_panel.update_page(goods_list.length / 4 + 1);
-			page_panel.select_page(current_page_num);
+		page_panel.update_page(goods_list.length / 4 + 1);
+		page_panel.select_page(current_page_num);
+		
+		for (int i=0; i<4; ++i) {
 			
-			for (int i=0; i<4; ++i) {
-				
-				try {
-					GoodsPanel temp_panel = new GoodsPanel(mf, goods_list[i + current_page_num*4]);
-					temp_panel.setLocation(10 + i * 230, 10);
-					goods_list_panel.add(temp_panel);
-				} catch (ArrayIndexOutOfBoundsException e) { break; }
-			}
+			try {
+				GoodsPanel temp_panel = new GoodsPanel(mf, goods_list[i + current_page_num*4]);
+				temp_panel.setLocation(10 + i * 230, 10);
+				goods_list_panel.add(temp_panel);
+			} catch (ArrayIndexOutOfBoundsException e) { break; }
 		}
 
 		goods_list_panel.revalidate();
