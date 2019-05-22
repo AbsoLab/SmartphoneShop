@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import back.Set;
 import front.service_panel.GoodsListPanel;
 import front.service_panel.KartListPanel;
+import front.service_panel.OrderListPanel;
 import main.MainFrame;
 
 public class MainPanel extends JPanel {
@@ -95,6 +96,10 @@ public class MainPanel extends JPanel {
 				
 			case "장바구니":
 				service_panel.add(new KartListPanel(mf, set));
+				break;
+				
+			case "주문배송":
+				service_panel.add(new OrderListPanel(mf, set));
 				break;
 				
 			case "로그아웃":

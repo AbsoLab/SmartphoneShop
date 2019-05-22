@@ -75,7 +75,6 @@ public class KartListPanel extends JPanel{
 		private JButton delete_button;
 		
 		private ShoppingKart kart;
-		
 		private int total_price;
 		
 		public KartPanel(ShoppingKart kart) {
@@ -275,8 +274,10 @@ public class KartListPanel extends JPanel{
 	
 	/*구매*/
 	private void purchase() {
-		new PurchaseFrame(mf, set);
-		show_kart_list_page(0);
+		if (kart_list.length != 0) {			
+			new PurchaseFrame(mf, set);
+			show_kart_list_page(0);
+		}
 	}
 	
 	/*장바구니 비우기*/

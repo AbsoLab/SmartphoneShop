@@ -120,16 +120,15 @@ public class GoodsListPanel extends JPanel{
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
 				JPanel panel = (JPanel)e.getSource();
-				
-				panel.setBorder(new LineBorder(new Color(109, 109, 255), 3));
+				panel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+				panel.setBorder(new LineBorder(new Color(109, 109, 219), 3));
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
 				JPanel panel = (JPanel)e.getSource();
-				
-				panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+				panel.setBorder(new LineBorder(Color.BLACK));
 			}
 			
 		}

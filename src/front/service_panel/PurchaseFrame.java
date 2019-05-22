@@ -17,7 +17,7 @@ import main.MainFrame;
 import structure.Order;
 import structure.ShoppingKart;
 
-public class PurchaseFrame extends JDialog{
+public class PurchaseFrame extends JDialog {
 	
 	private JLabel delivery_label;
 	private JLabel payment_label;

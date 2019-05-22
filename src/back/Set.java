@@ -65,4 +65,14 @@ public class Set {
 	public boolean EmptyKart() {
 		return DBMS.getShoppingKartManager().EmptyKart(logined_id);
 	}
+	
+	/*주문 목록 불러오기*/
+	public Order [] GetOrderList() {
+		return DBMS.getOrderManager().get_order_list(logined_id);
+	}
+	
+	/*주문 번호에 해당하는 상품목록 불러오기*/
+	public ShoppingKart [] GetOrderKartList(int order_num) {
+		return DBMS.getOrderManager().get_order_kart_list(logined_id, order_num);
+	}
 }
