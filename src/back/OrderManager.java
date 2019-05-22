@@ -36,7 +36,7 @@ public class OrderManager {
 				index++;
 			} while (rs.next());
 			
-		} catch (SQLException e) { System.out.println(sql);} catch (Exception e) {System.out.println("го╬ф");}
+		} catch (SQLException e) { System.out.println("ю╦╬ф╢ж " + sql);}
 		
 		return order;
 	}

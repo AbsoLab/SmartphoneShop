@@ -7,7 +7,7 @@ import structure.User;
 
 public class Set {
 
-	private String logined_id = "admin";
+	private String logined_id = null;
 	private static final DatabaseManagement DBMS = new DatabaseManagement();
 	
 	/*아이디 중복 확인*/
@@ -54,8 +54,6 @@ public class Set {
 	
 	/*구매*/
 	public boolean Purchase(Order order) {
-		
-		/*장바구니 데이터를 기반으로 구매 진행*/
 		DBMS.getShoppingKartManager().Purchase(logined_id, order);
 		EmptyKart();
 		return true;

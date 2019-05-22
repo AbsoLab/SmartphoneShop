@@ -49,17 +49,10 @@ public class MainPanel extends JPanel {
 		
 		private JButton [] button;
 		
-		private MainFrame mf;
-		private Set set;
-		
 		public SelectServicePanel(MainFrame mf, Set set) {
-		
-			this.mf = mf;
-			this.set = set;
-			
+				
 			setLayout(new GridLayout(1,6, 2, 0));
 			setBackground(Color.white);
-			
 			
 			/*버튼 생성*/
 			String [] button_name = {"상품목록", "장바구니", "주문배송", "고객센터", "고객정보", "로그아웃"};
