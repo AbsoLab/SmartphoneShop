@@ -1,6 +1,7 @@
 package back;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import structure.User;
@@ -97,5 +98,15 @@ public class AccountManager {
 		
 		return false;
 		
+	}
+
+	/*정보 변경*/
+	public boolean ChangeAccountInfo(User user) {
+		String sql = "update ACCOUNT set pw='" + user.get_PW() +"', name='" + user.get_name() + "', birth_date=" + user.get_birth_date() + " where id='" + user.get_ID() + "'";
+		try {
+			return st.execute(sql);
+		} catch (SQLException e) {
+			return false;
+		}
 	}
 }

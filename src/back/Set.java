@@ -26,6 +26,11 @@ public class Set {
 		if (check) logined_id = ID;
 		return check;
 	}
+	
+	public boolean Logout() {
+		logined_id = null;
+		return true;
+	}
 
 	/*상품 목록 로딩*/
 	public Goods [] GetGoodsList() {
@@ -72,5 +77,15 @@ public class Set {
 	/*주문 번호에 해당하는 상품목록 불러오기*/
 	public ShoppingKart [] GetOrderKartList(int order_num) {
 		return DBMS.getOrderManager().get_order_kart_list(logined_id, order_num);
+	}
+		
+	/*계정 정보 불러오기*/
+	public User GetAccountInfo() {
+		return DBMS.getAccountManager().GetAccount(logined_id);
+	}
+
+	/*계정 정보 변경*/
+	public boolean ChangeAccountInfo(String PW, String name, String birth_date) {
+		return DBMS.getAccountManager().ChangeAccountInfo(new User(logined_id, PW, name, birth_date));
 	}
 }

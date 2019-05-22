@@ -24,7 +24,6 @@ public class MainFrame extends JFrame {
 		c = getContentPane();
 		
 		start_panel = new StartPanel(this, set);
-		main_panel = new MainPanel(this, set);
 		
 		add(start_panel);
 		
@@ -43,14 +42,14 @@ public class MainFrame extends JFrame {
 			c.removeAll();
 			setSize(300, 140);
 			setLocationRelativeTo(null);
-			add(start_panel);
+			add(new StartPanel(this, set));
 			revalidate();
 			repaint();
 		} else if (panelName.contentEquals("Main")) {
 			c.removeAll();
 			setSize(1280, 720);
 			setLocationRelativeTo(null);
-			add(main_panel);
+			add(new MainPanel(this, set));
 			revalidate();
 			repaint();
 		}

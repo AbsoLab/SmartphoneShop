@@ -95,7 +95,13 @@ public class MainPanel extends JPanel {
 				service_panel.add(new OrderListPanel(mf, set));
 				break;
 				
+			case "°í°´Á¤º¸":
+				new ChangeAccountInfoFrame(mf, set);
+				break;
+				
 			case "·Î±×¾Æ¿ô":
+				set.Logout();
+				mf.ChangePanel("Start");
 				break;
 			}
 			
