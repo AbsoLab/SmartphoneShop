@@ -9,9 +9,6 @@ import front.MainPanel;
 import front.StartPanel;
 
 public class MainFrame extends JFrame {
-
-	private StartPanel start_panel;	// 첫 화면(로그인 화면)
-	private MainPanel main_panel;	// 메인 화면
 	
 	private Container c;
 	private static Set set = new Set();
@@ -22,10 +19,8 @@ public class MainFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		c = getContentPane();
-		
-		start_panel = new StartPanel(this, set);
-		
-		add(start_panel);
+				
+		add(new StartPanel(this, set));
 		
 		//add(main_panel);
 		//setSize(1280, 720);

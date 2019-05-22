@@ -26,11 +26,8 @@ public class StartPanel extends JPanel {
 	private JTextField[] textField;
 	private JButton[] button;
 	
-	private Vector<Component> order;	// 탭 순서 지정
-	
 	private MainFrame mf;
 	private Set set;
-	
 	
 	public StartPanel(MainFrame mf, Set set) {
 		
@@ -56,6 +53,7 @@ public class StartPanel extends JPanel {
 		for(int i=0; i<2; ++i) {
 			textField[i].setHorizontalAlignment(JTextField.CENTER);	// 가운데 정렬
 			textField[i].setBounds(50, 15 + 40*i, 120, 30);
+			textField[i].addActionListener(new EnterKeyEventListenr());
 			add(textField[i]);
 		}
 		
@@ -70,68 +68,12 @@ public class StartPanel extends JPanel {
 			button[i].setMargin(new Insets(0, 0, 0, 0));
 			button[i].setBounds(180, 10 + 40*i, 100, 40);
 			button[i].addActionListener(new BtnEventListener());
+			button[i].setFocusable(false);
 			add(button[i]);
-		}
-		
-		/*탭 순서 지정*/
-		order = new Vector<Component>(4);
-		order.add(textField[0]);
-		order.add(textField[1]);
-		order.add(button[0]);
-		order.add(button[1]);
-		
-		new MyFocusTraversalPolicy(order);
-		
+		}	
 	}
-	
-	/*탭 순서 지정*/
-	private class MyFocusTraversalPolicy extends FocusTraversalPolicy {
-
-		private Vector<Component> order;
 		
-		public MyFocusTraversalPolicy(Vector<Component> order) {
-			this.order = new Vector<Component>(order.size());
-			this.order.addAll(order);
-		}
-				
-		@Override
-		public Component getComponentAfter(Container aContainer, Component aComponent) {
-			// TODO Auto-generated method stub
-			int idx = (order.indexOf(aComponent) + 1) % order.size();
-			return order.get(idx);
-		}
-		
-		@Override
-		public Component getComponentBefore(Container aContainer, Component aComponent) {
-			// TODO Auto-generated method stub
-			int idx = order.indexOf(aComponent) - 1;
-			if (idx < 0) {
-				idx = order.size() - 1;
-			}
-			return order.get(idx);
-		}
-
-		@Override
-		public Component getFirstComponent(Container aContainer) {
-			// TODO Auto-generated method stub
-			return order.get(0);
-		}
-
-		@Override
-		public Component getLastComponent(Container aContainer) {
-			// TODO Auto-generated method stub
-			return order.lastElement();
-		}
-
-		@Override
-		public Component getDefaultComponent(Container aContainer) {
-			// TODO Auto-generated method stub
-			return order.get(0);
-		}
-		
-	}
-	
-	/*이벤트 리스너*/
+	/*버튼 이벤트 리스너*/
 	private class BtnEventListener implements ActionListener {
 
 		@Override
@@ -161,5 +103,25 @@ public class StartPanel extends JPanel {
 				break;			
 			}				
 		}
+	}
+
+	/*엔터키로 로그인*/
+	private class EnterKeyEventListenr implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			String ID = textField[0].getText();
+			String PW = textField[1].getText();
+			
+			if (set.Login(ID, PW)) {
+				textField[0].setText("");
+				textField[1].setText("");
+				mf.ChangePanel("Main");
+			} else {
+				JOptionPane.showMessageDialog(null, "아이디 혹은 비밀번호를 잘못 입력하셨습니다.");
+			}
+		}
+		
 	}
 }

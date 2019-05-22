@@ -3,7 +3,6 @@ package front.service_panel;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -77,7 +76,6 @@ public class GoodsListPanel extends JPanel{
 	class GoodsPanel extends JPanel {
 		
 		private JPanel goods_image_panel;
-		private JPanel goods_name_panel;
 		private JLabel goods_name_label;
 		
 		private MainFrame mf;
@@ -94,16 +92,13 @@ public class GoodsListPanel extends JPanel{
 			goods_image_panel = new JPanel();
 			goods_image_panel.setBounds(10, 10, 180, 250);
 			add(goods_image_panel);
-			
-			/*상품 이름 패널*/
-			goods_name_panel = new JPanel();
-			goods_name_panel.setBounds(15, 300, 170, 35);
-			
+						
 			/*상품 이름 출력*/
 			goods_name_label = new JLabel(goods.get_name());
 			goods_name_label.setFont(new Font("맑은 고딕", Font.BOLD, 17));
-			goods_name_panel.add(goods_name_label);
-			add(goods_name_panel);
+			goods_name_label.setHorizontalAlignment(JLabel.LEFT);
+			goods_name_label.setBounds(15, 300, 170, 35);
+			add(goods_name_label);
 			
 			addMouseListener(new MouseActionListener());
 			

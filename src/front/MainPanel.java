@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import back.Set;
@@ -78,10 +79,20 @@ public class MainPanel extends JPanel {
 			// TODO Auto-generated method stub
 			
 			JButton btn = (JButton)e.getSource();
+			String text = btn.getText();
+			if (text.equals("고객센터")) {
+				JOptionPane.showMessageDialog(null, "준비중인 기능입니다.");
+				return;
+			}
+			
+			if (text.equals("고객정보")) {
+				new ChangeAccountInfoFrame(mf, set);
+				return;
+			}
 			
 			service_panel.removeAll();
 			
-			switch(btn.getText()) {
+			switch(text) {
 			
 			case "상품목록":
 				service_panel.add(new GoodsListPanel(mf, set));
@@ -93,10 +104,6 @@ public class MainPanel extends JPanel {
 				
 			case "주문배송":
 				service_panel.add(new OrderListPanel(mf, set));
-				break;
-				
-			case "고객정보":
-				new ChangeAccountInfoFrame(mf, set);
 				break;
 				
 			case "로그아웃":

@@ -12,7 +12,9 @@ import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 
 import back.Set;
@@ -88,6 +90,7 @@ public class GoodsInfoFrame extends JDialog {
 		
 		private JLabel [] left_label;
 		private JLabel [] right_label;
+		private JTextArea explanation_textField;
 		
 		public BasicInformationPanel(Goods goods) {
 			
@@ -107,12 +110,22 @@ public class GoodsInfoFrame extends JDialog {
 			right_label = new JLabel[3];
 			right_label[0] = new JLabel(goods.get_name());
 			right_label[1] = new JLabel(String.valueOf(goods.get_price()));
-			right_label[2] = new JLabel(goods.get_explanation());
-			for (int i=0; i<3; ++i) {
+			for (int i=0; i<2; ++i) {
 				right_label[i].setFont(new Font("맑은 고딕", Font.BOLD, 15));
 				right_label[i].setBounds(120, 30 + 50 * i, 300, 30);
 				add(right_label[i]);
 			}
+			
+			/*상품 설명 출력*/
+			explanation_textField = new JTextArea();
+			explanation_textField.setText(goods.get_explanation());
+			explanation_textField.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+			explanation_textField.setEditable(false);
+			explanation_textField.setBackground(Color.WHITE);
+			explanation_textField.setBorder(null);
+			explanation_textField.setLineWrap(true);
+			explanation_textField.setBounds(120, 135, 250, 150);
+			add(explanation_textField);
 		}
 	
 		/*선 긋기*/
@@ -188,7 +201,9 @@ public class GoodsInfoFrame extends JDialog {
 			JButton btn = (JButton)e.getSource();
 			switch(btn.getText()) {
 			case "장바구니 담기":
-				set.AddKart(goods);
+				set.AddKart(goods);					
+				dispose();
+				JOptionPane.showMessageDialog(null, "장바구니에 담았습니다.");
 				break;
 			case "닫기":
 				dispose();
