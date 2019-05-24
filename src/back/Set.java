@@ -1,5 +1,7 @@
 package back;
 
+import java.awt.Image;
+
 import structure.Goods;
 import structure.Order;
 import structure.ShoppingKart;
@@ -28,6 +30,7 @@ public class Set {
 		return check;
 	}
 	
+	/*로그아웃*/
 	public boolean Logout() {
 		logined_id = null;
 		return true;
@@ -103,5 +106,14 @@ public class Set {
 	/*계정 정보 변경*/
 	public boolean ChangeAccountInfo(String PW, String name, String birth_date) {
 		return DBMS.getAccountManager().ChangeAccountInfo(new User(logined_id, PW, name, birth_date));
+	}
+
+	/*상품 추가*/
+	public boolean AddGoods(Goods goods, String img_url) {
+		return DBMS.getGoodsManager().add_new_goods(goods, img_url);
+	}
+	/*이미지 불러오기*/
+	public Image GetImage(String name) {
+		return DBMS.getGoodsManager().get_image(name);
 	}
 }

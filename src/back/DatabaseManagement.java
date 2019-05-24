@@ -27,7 +27,7 @@ public class DatabaseManagement {
 			statement = connection.createStatement();
 		
 			account_manager = new AccountManager(statement);
-			goods_manager = new GoodsManager(statement);
+			goods_manager = new GoodsManager(connection, statement);
 			shopping_kart_manager = new ShoppingKartManager(statement);
 			order_manager = new OrderManager(statement);
 			

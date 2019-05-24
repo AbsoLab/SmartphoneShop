@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import back.Set;
@@ -81,7 +80,9 @@ public class MainPanel extends JPanel {
 			JButton btn = (JButton)e.getSource();
 			String text = btn.getText();
 			if (text.equals("고객센터")) {
-				JOptionPane.showMessageDialog(null, "준비중인 기능입니다.");
+				//JOptionPane.showMessageDialog(null, "준비중인 기능입니다.");
+				new AddGoodsFrame(mf, set);
+				//set.AddGoods();
 				return;
 			}
 			

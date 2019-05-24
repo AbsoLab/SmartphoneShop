@@ -1,17 +1,27 @@
 package back;
 
+import java.awt.Image;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+
+import javax.imageio.ImageIO;
 
 import structure.Goods;
 import structure.Smartphone;
 
 public class GoodsManager {
 	
+	private Connection connection;
 	private Statement st;
 	
-	public GoodsManager(Statement st) {
+	public GoodsManager(Connection connection, Statement st) {
 		
+		this.connection = connection;
 		this.st = st;
 	}
 	
@@ -135,6 +145,52 @@ public class GoodsManager {
 	}
 	
 	/*상품 추가*/
+	public boolean add_new_goods(Goods goods, String img_url) {
+		try {
+			
+			String sql = "insert into goods values('" + goods.get_name() + "', " + goods.get_price() + ", " + goods.get_category() + ", '" + goods.get_explanation() +"')";
+			st.execute(sql);
+			
+			if (goods.get_category() == 1) {
+				Smartphone ph = (Smartphone)goods;
+				sql = "insert into smartphone values('" + ph.get_name() + "', '" + ph.get_manufacturing_company() + "', '" + ph.get_release_date() + "', '" + ph.get_spec().cpu + "', '" + ph.get_spec().display + "', '" + ph.get_spec().battery_size + "', '" + ph.get_spec().RAM + "', '" + ph.get_spec().RAM + "')";
+				st.execute(sql);
+			}
+			
+			/*이미지 저장*/
+			File imgfile = new File(img_url);
+			FileInputStream fin = new FileInputStream(imgfile);
+
+			PreparedStatement pre = connection.prepareStatement("insert into image_table values ('tmp_name', ?)");
+			pre.setBinaryStream(1, fin, (int)imgfile.length());
+			pre.executeUpdate();
+			pre.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/*이미지 받아오기*/
+	public Image get_image(String name) {
+		
+		String sql = "select IMAGE from IMAGE_TABLE where name='" + name + "'";
+		ResultSet rs;
+		Image img = null;
+		try {
+			rs = st.executeQuery(sql);
+			if (rs.first()) {
+				InputStream is = rs.getBinaryStream("IMAGE");
+				img = ImageIO.read(is);				
+			}
+		} catch (Exception e) {}
+		
+		return img;			
+	}
 	
 	/*상품 삭제*/
 }
