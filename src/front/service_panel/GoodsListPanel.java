@@ -3,11 +3,14 @@ package front.service_panel;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,6 +26,7 @@ public class GoodsListPanel extends JPanel{
 	private JButton [] category_button;
 	private JPanel goods_list_panel;
 	private PagePanel page_panel;
+	private JButton add_goods_button;
 	
 	private MainFrame mf;
 	private Set set;
@@ -68,6 +72,17 @@ public class GoodsListPanel extends JPanel{
 		page_panel.setBounds(250, 480, 910, 30);
 		add(page_panel);
 
+		/*상품 추가 버튼 (관리자만 뜬다)*/
+		if (set.is_admin()) {
+			add_goods_button = new JButton("상품추가");
+			add_goods_button.setBounds(1060, 520, 100, 30);
+			add_goods_button.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+			add_goods_button.setMargin(new Insets(0, 0, 0, 0));
+			add_goods_button.setBackground(Color.WHITE);
+			add_goods_button.addActionListener(new CategoryButtonListener());
+			add(add_goods_button);
+		}
+		
 		/*초기화*/
 		show_goods_list_page(0, 0);
 	}
@@ -75,7 +90,8 @@ public class GoodsListPanel extends JPanel{
 	/*상품 패널*/
 	class GoodsPanel extends JPanel {
 		
-		private JPanel goods_image_panel;
+		private Image img;
+		private JLabel goods_image_label;
 		private JLabel goods_name_label;
 		
 		private MainFrame mf;
@@ -88,11 +104,14 @@ public class GoodsListPanel extends JPanel{
 			
 			setLayout(null);
 			
-			/*상품 이미지 패널*/
-			goods_image_panel = new JPanel();
-			goods_image_panel.setBounds(10, 10, 180, 250);
-			add(goods_image_panel);
-						
+			/*상품 이미지 출력*/
+			img = set.GetImage(goods.get_name());
+			img = img.getScaledInstance(180, 250, Image.SCALE_SMOOTH);
+			
+			goods_image_label = new JLabel(new ImageIcon(img));
+			goods_image_label.setBounds(10, 10, 180, 250);
+			add(goods_image_label);
+			
 			/*상품 이름 출력*/
 			goods_name_label = new JLabel(goods.get_name());
 			goods_name_label.setFont(new Font("맑은 고딕", Font.BOLD, 17));
@@ -211,6 +230,9 @@ public class GoodsListPanel extends JPanel{
 			case "기타":
 				select = 3;
 				show_goods_list_page(3, 0);
+				break;
+			case "상품추가":
+				new AddGoodsFrame(mf, set);
 				break;
 				
 			}

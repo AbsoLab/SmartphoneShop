@@ -55,9 +55,9 @@ public class MainPanel extends JPanel {
 			setBackground(Color.white);
 			
 			/*버튼 생성*/
-			String [] button_name = {"상품목록", "장바구니", "주문배송", "고객센터", "고객정보", "로그아웃"};
-			button = new JButton[6];
-			for (int i=0; i<6; ++i) {
+			String [] button_name = {"상품목록", "장바구니", "주문배송", "고객정보", "로그아웃"};
+			button = new JButton[button_name.length];
+			for (int i=0; i<button_name.length; ++i) {
 				button[i] = new JButton(button_name[i]);
 				button[i].setFont(new Font("맑은 고딕", Font.BOLD, 20));
 				button[i].setBackground(new Color(255, 255, 255));
@@ -66,7 +66,7 @@ public class MainPanel extends JPanel {
 				button[i].addActionListener(new ButtonEventListener());
 				add(button[i]);
 			}
-			button[5].setBackground(new Color(255, 207, 207));
+			button[4].setBackground(new Color(255, 207, 207));
 		}	
 	}
 
@@ -79,12 +79,6 @@ public class MainPanel extends JPanel {
 			
 			JButton btn = (JButton)e.getSource();
 			String text = btn.getText();
-			if (text.equals("고객센터")) {
-				//JOptionPane.showMessageDialog(null, "준비중인 기능입니다.");
-				new AddGoodsFrame(mf, set);
-				//set.AddGoods();
-				return;
-			}
 			
 			if (text.equals("고객정보")) {
 				new ChangeAccountInfoFrame(mf, set);

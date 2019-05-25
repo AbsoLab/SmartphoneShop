@@ -1,4 +1,4 @@
-package front;
+package front.service_panel;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -41,7 +42,7 @@ public class AddGoodsFrame extends JDialog{
 	JButton [] button;
 
 	Goods goods;
-	int selected_category = -1;
+	int selected_category = 0;
 	
 	private Set set;
 	
@@ -98,6 +99,7 @@ public class AddGoodsFrame extends JDialog{
 			category_button_group.add(goods_category_radio_button[i]);
 			add(goods_category_radio_button[i]);
 		}
+		goods_category_radio_button[0].setSelected(true);
 		
 		/*설명 입력칸 생성*/
 		goods_explanation_textArea = new JTextArea();
@@ -171,23 +173,13 @@ public class AddGoodsFrame extends JDialog{
 			button[i].addActionListener(new ButtonEventListener());
 			add(button[i]);
 		}
-		
-		/*
-		Image img = set.GetImage("tmp_name");
-		Image resizeImage = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-		JLabel label = new JLabel(new ImageIcon(resizeImage));
-		label.setBounds(40, 40, 100, 100);
-		add(label);
-		*/
-		
+			
 		setResizable(false);
 		setSize(440,500);
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
-	
-	
-	
+		
 	/*라디오 버튼 이벤트*/
 	class RadioButtonEventListener implements ActionListener {
 
@@ -224,8 +216,15 @@ public class AddGoodsFrame extends JDialog{
 				open_file();
 				break;
 			case "추가":
-				generate_goods();
-				add_func();
+				if (!check_textField()) {
+					JOptionPane.showMessageDialog(null, "빈칸이 있습니다.");
+				} else if (!set.CheckGoodsName(goods_info_value_textField[0].getText())) {
+					JOptionPane.showMessageDialog(null, "이미 같은 상품명이 있습니다.");
+				} else {
+					generate_goods();
+					set.AddGoods(goods, goods_info_value_textField[1].getText());
+					dispose();
+				}
 				break;
 			case "취소":
 				dispose();
@@ -249,14 +248,14 @@ public class AddGoodsFrame extends JDialog{
 	}
 	
 	/*스마트폰 정보 입력 허용-잠금*/
-	private void lock_textField(boolean bool) {
+	protected void lock_textField(boolean bool) {
 		for (int i=0; i<smartphone_info_value_textField.length; ++i) {
 			smartphone_info_value_textField[i].setEnabled(bool);
 		}
 	}
 	
 	/*textField값을 기반으로 객체 생성*/
-	private void generate_goods() {
+	protected void generate_goods() {
 		JRadioButton btn = goods_category_radio_button[selected_category];
 		if (btn.getText().equals("스마트폰")) {
 			goods = new Smartphone(goods_info_value_textField[0].getText(), Integer.valueOf(goods_info_value_textField[2].getText()), 1, goods_explanation_textArea.getText());
@@ -269,7 +268,7 @@ public class AddGoodsFrame extends JDialog{
 	}
 	
 	/*파일 첨부 버튼 클릭*/
-	private void open_file() {
+	protected void open_file() {
 		JFileChooser jfc = new JFileChooser();
 		jfc.setFileFilter(new FileNameExtensionFilter("jpg", "jpeg", "png"));
         if(jfc.showSaveDialog(null) == 0) {
@@ -277,8 +276,26 @@ public class AddGoodsFrame extends JDialog{
         }
 	}
 
-	
-	private void add_func() {
-		System.out.println(goods);
+	/*빈칸 체크*/
+	protected boolean check_textField() {
+		
+		for (int i=0; i<goods_info_value_textField.length; ++i) {
+			if (goods_info_value_textField[i].getText().equals("")) {
+				return false;
+			}
+		}
+		
+		if (goods_explanation_textArea.getText().equals(""))
+			return false;
+		
+		if (selected_category == 0) {
+			for (int i=0; i<smartphone_info_value_textField.length; ++i) {
+				if (smartphone_info_value_textField[i].getText().contentEquals("")) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
 	}
 }

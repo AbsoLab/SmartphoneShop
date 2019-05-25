@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.imageio.ImageIO;
@@ -96,7 +97,7 @@ public class GoodsManager {
 	public Goods [] get_accessory() {
 		Goods [] goods_list = null;
 		int index = 0;		
-		String sql = "select * from GOODS where category=2";
+		String sql = "select * from GOODS where category=1";
 		
 		ResultSet rs;
 		
@@ -122,7 +123,7 @@ public class GoodsManager {
 	public Goods [] get_etc() {
 		Goods [] goods_list = null;
 		int index = 0;		
-		String sql = "select * from GOODS where category=3";
+		String sql = "select * from GOODS where category=2";
 		
 		ResultSet rs;
 		
@@ -151,7 +152,7 @@ public class GoodsManager {
 			String sql = "insert into goods values('" + goods.get_name() + "', " + goods.get_price() + ", " + goods.get_category() + ", '" + goods.get_explanation() +"')";
 			st.execute(sql);
 			
-			if (goods.get_category() == 1) {
+			if (goods.get_category() == 0) {
 				Smartphone ph = (Smartphone)goods;
 				sql = "insert into smartphone values('" + ph.get_name() + "', '" + ph.get_manufacturing_company() + "', '" + ph.get_release_date() + "', '" + ph.get_spec().cpu + "', '" + ph.get_spec().display + "', '" + ph.get_spec().battery_size + "', '" + ph.get_spec().RAM + "', '" + ph.get_spec().RAM + "')";
 				st.execute(sql);
@@ -161,7 +162,7 @@ public class GoodsManager {
 			File imgfile = new File(img_url);
 			FileInputStream fin = new FileInputStream(imgfile);
 
-			PreparedStatement pre = connection.prepareStatement("insert into image_table values ('tmp_name', ?)");
+			PreparedStatement pre = connection.prepareStatement("insert into image_table values ('" + goods.get_name() + "', ?)");
 			pre.setBinaryStream(1, fin, (int)imgfile.length());
 			pre.executeUpdate();
 			pre.close();
@@ -173,6 +174,25 @@ public class GoodsManager {
 		}
 		
 		return true;
+	}
+	
+	/*상품명 중복 확인*/
+	public boolean check_goods_naem(String name) {
+
+		boolean result = true;
+		
+		String sql = "select * from ACCOUNT where id='" + name + "'";
+		try {
+			ResultSet rs = st.executeQuery(sql);
+			rs.last();
+			if (rs.getRow() == 0) {
+				result = false;
+			}
+			rs.close();
+		} catch (SQLException e) {
+			result = false;
+		}
+		return result;
 	}
 	
 	/*이미지 받아오기*/
@@ -193,4 +213,21 @@ public class GoodsManager {
 	}
 	
 	/*상품 삭제*/
+	public boolean delete_goods(String name, int category) {
+		String sql; 
+		try {
+			sql = "delete from GOODS where name='" + name + "'";
+			st.execute(sql);
+			sql = "delete from IMAGE_TABLE where name='" + name + "'";
+			st.execute(sql);
+			if (category == 0) {
+				sql = "delete from SMARTPHONE where name='" + name + "'";
+				st.execute(sql);	
+			}
+		} catch (Exception e) {
+			
+			return false;
+		}
+		return true;
+	}
 }

@@ -28,45 +28,36 @@ public class AccountManager {
 	
 	/*존재하는 ID인지 확인*/
 	public boolean CheckID(String ID) {
-		
-		String sql;
-		sql = "SELECT id FROM ACCOUNT";
-		ResultSet rs;
-		
+		boolean result = true;
+		String sql = "SELECT id FROM ACCOUNT WHERE id='" + ID + "'";
 		try {
-			rs = st.executeQuery(sql);
-			
-			while(rs.next()) {
-				if (ID.equals(rs.getString("id"))) {
-					return true;
-				}
+			ResultSet rs = st.executeQuery(sql);
+			rs.last();
+			if (rs.getRow() == 0) {
+				result = false;
 			}
 			rs.close();
-		} catch (Exception e) { }
+		} catch (Exception e) { result = false; }
 		
-		return false;
+		return result;
 	}
 	
 	/*ID에 해당하는 유저정보 받아오기*/
 	public User GetAccount(String ID) {
 		
-		String sql = "SELECT * FROM ACCOUNT";
-		
+		User user = null;
+		String sql = "SELECT * FROM ACCOUNT where id='" + ID + "'";
 		ResultSet rs;
 		
 		try {
 			rs = st.executeQuery(sql);
-			
-			while(rs.next()) {
-				if (ID.equals(rs.getString("id"))) {
-					return new User(rs.getString("id"), rs.getString("pw"), rs.getString("name"), rs.getInt("birth_date"));
-				}
-			}
+			rs.next();
+			user = new User(rs.getString("id"), rs.getString("pw"), rs.getString("name"), rs.getInt("birth_date"));
 			rs.close();
 			
 		} catch (Exception e) { }
 		
-		return null;
+		return user;
 	}
 	
 	/*ID PW가 둘다 맞는 지 확인*/

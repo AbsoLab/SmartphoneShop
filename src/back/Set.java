@@ -13,6 +13,10 @@ public class Set {
 	private String logined_id = null;
 	private static final DatabaseManagement DBMS = new DatabaseManagement();
 	
+	public boolean is_admin() {
+		return logined_id.equals("admin");
+	}
+	
 	/*아이디 중복 확인*/
 	public boolean CompareID(String ID) {
 		return DBMS.getAccountManager().CheckID(ID);
@@ -112,8 +116,19 @@ public class Set {
 	public boolean AddGoods(Goods goods, String img_url) {
 		return DBMS.getGoodsManager().add_new_goods(goods, img_url);
 	}
+	
+	/*상품명 중복 확인*/
+	public boolean CheckGoodsName(String name) {
+		return DBMS.getGoodsManager().check_goods_naem(name);
+	}
+	
 	/*이미지 불러오기*/
 	public Image GetImage(String name) {
 		return DBMS.getGoodsManager().get_image(name);
+	}
+
+	/*상품 삭제*/
+	public boolean DeleteGoods(Goods goods) {
+		return DBMS.getGoodsManager().delete_goods(goods.get_name(), goods.get_category());
 	}
 }
