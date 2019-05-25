@@ -24,6 +24,7 @@ import main.MainFrame;
 import structure.Goods;
 import structure.Smartphone;
 
+/*상품 클릭시 뜨는 상품정보 다이얼로그 입니다.*/
 public class GoodsInfoFrame extends JDialog {
 	
 	private Image img;
@@ -103,7 +104,7 @@ public class GoodsInfoFrame extends JDialog {
 	}
 	
 	/*기본 정보 패널*/
-	class BasicInformationPanel extends JPanel {
+	private class BasicInformationPanel extends JPanel {
 		
 		private JLabel [] left_label;
 		private JLabel [] right_label;
@@ -155,7 +156,7 @@ public class GoodsInfoFrame extends JDialog {
 	}
 	
 	/*상세 정보 패널*/
-	class DetailedSpecificationFrame extends JDialog {
+	private class DetailedSpecificationFrame extends JDialog {
 		
 		private JLabel [] left_label;
 		private JLabel [] right_label;
@@ -198,18 +199,18 @@ public class GoodsInfoFrame extends JDialog {
 	}
 	
 	/*상세 정보 패널 출력용 이벤트 리스너*/
-	class MouseActionListener extends MouseAdapter {
+	private class MouseActionListener extends MouseAdapter {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			// TODO Auto-generated method stub	
-			if (goods.get_category() == 1)
+			if (goods.get_category() == 0)
 				new DetailedSpecificationFrame(mf, (Smartphone)goods);
 		}
 	}
 
 	/*버튼 이벤트 리스너*/
-	class ButtonEventListener implements ActionListener {
+	private class ButtonEventListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {

@@ -17,18 +17,15 @@ public class OrderManager {
 	}
 	
 	/*주문 목록을 받아온다.*/
-	public Order [] get_order_list(String ID) {
+	public Order [] GetOrderList(String ID) {
 		
-		String sql = "select * from ORDER_INFO where id='" + ID + "'";
+		String sql = "SELECT * FROM order_info WHERE id='" + ID + "'";
 		Order [] order = null;
-		ResultSet rs;
 		int index = 0;
 		
 		try {			
-			rs = st.executeQuery(sql);
-			rs.last();
-			order = new Order[rs.getRow()];
-			rs.first();
+			ResultSet rs = st.executeQuery(sql);
+			rs.last(); order = new Order[rs.getRow()]; rs.first();
 			
 			do {
 				order[index] = new Order(rs.getString("name"), rs.getString("address"), rs.getString("phone_number"), rs.getString("card_corporation"), rs.getString("card_number"), rs.getInt("price"));
@@ -36,32 +33,28 @@ public class OrderManager {
 				index++;
 			} while (rs.next());
 			
-		} catch (SQLException e) { System.out.println("으아닛 " + sql);}
+		} catch (SQLException e) {}
 		
 		return order;
 	}
 	
-	/*주문 번호에 해당하는 */
-	public ShoppingKart [] get_order_kart_list(String ID, int order_num) {
+	/*주문 번호에 해당하는 삼품 정보를 받아온다.*/
+	public ShoppingKart [] GetOrderGoods(String ID, int order_num) {
 		
-		String sql = "select * from ORDER_LIST where order_number=" + order_num;
-		ResultSet rs;
-		
+		String sql = "SELECT * FROM order_list WHERE order_number=" + order_num;
 		ShoppingKart [] kart = null;
+		int index = 0;
 		
 		try {
-			rs = st.executeQuery(sql);
-			
-			rs.last();
-			kart = new ShoppingKart[rs.getRow()];
-			rs.first();
-			int index = 0;
+			ResultSet rs = st.executeQuery(sql);
+			rs.last(); kart = new ShoppingKart[rs.getRow()]; rs.first();
 			
 			do {
 				kart[index] = new ShoppingKart(rs.getString("name"), rs.getInt("count"), rs.getInt("price"));
 				index++;
 			} while (rs.next());
-		} catch (Exception e) {System.out.println(sql);}
+			
+		} catch (Exception e) { }
 		
 		return kart;
 	}

@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import back.Set;
 import main.MainFrame;
 
+/*프로그램 시작 시 처음 보이는 화면입니다.*/
 public class StartPanel extends JPanel {
 
 	private JLabel[] label;
@@ -84,18 +85,15 @@ public class StartPanel extends JPanel {
 				String PW = textField[1].getText();
 				
 				if (set.Login(ID, PW)) {
-					textField[0].setText("");
-					textField[1].setText("");
 					mf.ChangePanel("Main");
 				} else {
+					textField[1].setText("");
 					JOptionPane.showMessageDialog(null, "아이디 혹은 비밀번호를 잘못 입력하셨습니다.");
 				}
-				
 				break;
 				
 			case "Register":
 				new RegisterAccountFrame(mf, set);
-				
 				break;			
 			}				
 		}
@@ -111,10 +109,9 @@ public class StartPanel extends JPanel {
 			String PW = textField[1].getText();
 			
 			if (set.Login(ID, PW)) {
-				textField[0].setText("");
-				textField[1].setText("");
 				mf.ChangePanel("Main");
 			} else {
+				textField[1].setText("");
 				JOptionPane.showMessageDialog(null, "아이디 혹은 비밀번호를 잘못 입력하셨습니다.");
 			}
 		}

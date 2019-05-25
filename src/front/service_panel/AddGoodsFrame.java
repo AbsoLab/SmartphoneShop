@@ -25,24 +25,27 @@ import main.MainFrame;
 import structure.Goods;
 import structure.Smartphone;
 
+/*상품 추가 버튼을 누룰 시 뜨는 다이얼로그입니다.*/
 public class AddGoodsFrame extends JDialog{
 	
-	JLabel [] goods_info_name_label;
-	JTextField [] goods_info_value_textField;
-	JButton img_input_button;
-	JRadioButton [] goods_category_radio_button;
-	ButtonGroup category_button_group;
-	JTextArea goods_explanation_textArea;
+	/*상품 정보*/
+	private JLabel [] goods_info_name_label;
+	private JTextField [] goods_info_value_textField;
+	private JButton img_input_button;
+	private JRadioButton [] goods_category_radio_button;
+	private ButtonGroup category_button_group;
+	private JTextArea goods_explanation_textArea;
 	
-	JLabel [] smartphone_info_name_label;
-	JTextField [] smartphone_info_value_textField;
-	JLabel guide_label;
-	JLabel [] unit_label;
+	/*스마트폰 정보*/
+	private JLabel [] smartphone_info_name_label;
+	private JTextField [] smartphone_info_value_textField;
+	private JLabel guide_label;
+	private JLabel [] unit_label;
 	
-	JButton [] button;
+	private JButton [] button;
 
-	Goods goods;
-	int selected_category = 0;
+	private Goods goods;
+	private int selected_category = 0;
 	
 	private Set set;
 	
@@ -181,7 +184,7 @@ public class AddGoodsFrame extends JDialog{
 	}
 		
 	/*라디오 버튼 이벤트*/
-	class RadioButtonEventListener implements ActionListener {
+	private class RadioButtonEventListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -205,7 +208,7 @@ public class AddGoodsFrame extends JDialog{
 	}
 	
 	/*버튼 이벤트*/
-	class ButtonEventListener implements ActionListener {
+	private class ButtonEventListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -218,7 +221,7 @@ public class AddGoodsFrame extends JDialog{
 			case "추가":
 				if (!check_textField()) {
 					JOptionPane.showMessageDialog(null, "빈칸이 있습니다.");
-				} else if (!set.CheckGoodsName(goods_info_value_textField[0].getText())) {
+				} else if (set.CheckGoodsName(goods_info_value_textField[0].getText())) {
 					JOptionPane.showMessageDialog(null, "이미 같은 상품명이 있습니다.");
 				} else {
 					generate_goods();
@@ -235,7 +238,7 @@ public class AddGoodsFrame extends JDialog{
 	}
 	
 	/*키 입력 제한*/
-	class LimitKeyInputListener extends KeyAdapter {
+	private class LimitKeyInputListener extends KeyAdapter {
 
 		@Override
 		public void keyTyped(KeyEvent e) {
@@ -248,17 +251,16 @@ public class AddGoodsFrame extends JDialog{
 	}
 	
 	/*스마트폰 정보 입력 허용-잠금*/
-	protected void lock_textField(boolean bool) {
+	private void lock_textField(boolean bool) {
 		for (int i=0; i<smartphone_info_value_textField.length; ++i) {
 			smartphone_info_value_textField[i].setEnabled(bool);
 		}
 	}
 	
-	/*textField값을 기반으로 객체 생성*/
-	protected void generate_goods() {
-		JRadioButton btn = goods_category_radio_button[selected_category];
-		if (btn.getText().equals("스마트폰")) {
-			goods = new Smartphone(goods_info_value_textField[0].getText(), Integer.valueOf(goods_info_value_textField[2].getText()), 1, goods_explanation_textArea.getText());
+	/*입력된 값을 기반으로 객체 생성*/
+	private void generate_goods() {
+		if (selected_category == 0) {
+			goods = new Smartphone(goods_info_value_textField[0].getText(), Integer.valueOf(goods_info_value_textField[2].getText()), selected_category, goods_explanation_textArea.getText());
 			((Smartphone)goods).set_manufacturing_compay(smartphone_info_value_textField[0].getText());
 			((Smartphone)goods).set_release_date(smartphone_info_value_textField[1].getText());
 			((Smartphone)goods).set_spec(smartphone_info_value_textField[2].getText(), smartphone_info_value_textField[3].getText(), smartphone_info_value_textField[4].getText()+"mAh", smartphone_info_value_textField[5].getText()+"GB", smartphone_info_value_textField[6].getText()+"GB");
@@ -268,7 +270,7 @@ public class AddGoodsFrame extends JDialog{
 	}
 	
 	/*파일 첨부 버튼 클릭*/
-	protected void open_file() {
+	private void open_file() {
 		JFileChooser jfc = new JFileChooser();
 		jfc.setFileFilter(new FileNameExtensionFilter("jpg", "jpeg", "png"));
         if(jfc.showSaveDialog(null) == 0) {
@@ -277,7 +279,7 @@ public class AddGoodsFrame extends JDialog{
 	}
 
 	/*빈칸 체크*/
-	protected boolean check_textField() {
+	private boolean check_textField() {
 		
 		for (int i=0; i<goods_info_value_textField.length; ++i) {
 			if (goods_info_value_textField[i].getText().equals("")) {

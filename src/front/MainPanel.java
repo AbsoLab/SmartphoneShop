@@ -16,6 +16,7 @@ import front.service_panel.KartListPanel;
 import front.service_panel.OrderListPanel;
 import main.MainFrame;
 
+/*로그인 했을 시 첫 화면입니다.*/
 public class MainPanel extends JPanel {
 	
 	private SelectServicePanel select_service_panel;

@@ -21,10 +21,7 @@ public class MainFrame extends JFrame {
 		c = getContentPane();
 				
 		add(new StartPanel(this, set));
-		
-		//add(main_panel);
-		//setSize(1280, 720);
-		
+				
 		setSize(300, 140);
 		setResizable(false);				// 창크기 조절 금지
 		setLocationRelativeTo(null);		// 화면 중앙 위치

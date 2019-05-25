@@ -21,6 +21,7 @@ import back.Set;
 import main.MainFrame;
 import structure.User;
 
+/* 계정 정보를 변경하는 다이얼로그입니다.*/
 public class ChangeAccountInfoFrame  extends JDialog {
 
 	private JLabel[] info_label;
@@ -36,7 +37,7 @@ public class ChangeAccountInfoFrame  extends JDialog {
 		
 		this.set = set;
 		
-		setTitle("Change Account Information");
+		setTitle("계정 정보 변경");
 		setLayout(null);
 		
 		/*사용자 정보*/
@@ -53,20 +54,20 @@ public class ChangeAccountInfoFrame  extends JDialog {
 			add(info_label[i]);
 		}
 		
-		/*사용자 정보칸 생성*/
+		/*사용자 정보 입력칸 생성*/
 		JLabel ID_label = new JLabel(user.get_ID());
 		ID_label.setBounds(100, 17, 120, 30);
 		ID_label.setFont(new Font("함초롬돋움", Font.BOLD, 18));
 		add(ID_label);
 		
 		String [] info_value_name = {user.get_PW(), user.get_PW(), user.get_name(), Integer.toString(user.get_birth_date())};
-		textField = new JTextField[4];
+		textField = new JTextField[info_value_name.length];
 		textField[0] = new JPasswordField();
 		textField[1] = new JPasswordField();
 		textField[2] = new JTextField();
 		textField[3] = new JTextField();
 		
-		for (int i=0; i<4; ++i) {
+		for (int i=0; i<info_value_name.length; ++i) {
 			textField[i].setText(info_value_name[i]);
 			textField[i].setHorizontalAlignment(JTextField.CENTER);
 			textField[i].setBounds(100, 57 + 40*i, 120, 30);
@@ -83,7 +84,7 @@ public class ChangeAccountInfoFrame  extends JDialog {
 		collect_pw_label.setBounds(230, 95, 90, 30);
 		add(collect_pw_label);
 		
-		/*생성 취소 버튼 생성*/
+		/*생성-취소 버튼 생성*/
 		String [] button_name = {"수정", "취소"};
 		button = new JButton[2];
 		for (int i=0; i<2; ++i) {
@@ -113,7 +114,7 @@ public class ChangeAccountInfoFrame  extends JDialog {
 			switch(btn.getText()) {
 			
 			case "수정":	
-				switch(CheckRegister()) {
+				switch(CheckTextField()) {
 					case 2:
 						JOptionPane.showMessageDialog(null, "비밀번호를 확인 해 주세요.");
 						break;
@@ -190,7 +191,7 @@ public class ChangeAccountInfoFrame  extends JDialog {
 	}
 	
 	/*검사*/
-	private int CheckRegister() {
+	private int CheckTextField() {
 		
 		if (!collect_pw_label.getText().equals("")) {
 			return 2;

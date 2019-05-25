@@ -15,6 +15,7 @@ import main.MainFrame;
 import structure.Order;
 import structure.ShoppingKart;
 
+/*로그인한 사용자의 여태까지 주문했던 목록을 보여줍니다.*/
 public class OrderListPanel extends JPanel {
 	
 	private JPanel order_list_panel;
@@ -49,7 +50,7 @@ public class OrderListPanel extends JPanel {
 	}
 	
 	/*주문 정보 패널*/
-	class OrderPanel extends JPanel {
+	private class OrderPanel extends JPanel {
 		
 		private JLabel order_number_label;
 		private JLabel goods_name_label;
@@ -95,7 +96,7 @@ public class OrderListPanel extends JPanel {
 	}
 	
 	/*페이지 패널*/
-	class PagePanel extends JPanel {
+	private class PagePanel extends JPanel {
 		
 		private JLabel [] page_num_label;
 
@@ -128,7 +129,7 @@ public class OrderListPanel extends JPanel {
 		}
 		
 		/*페이지 숫자 이벤트 리스너*/
-		class MouseActionListener extends MouseAdapter {
+		private class MouseActionListener extends MouseAdapter {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -147,7 +148,7 @@ public class OrderListPanel extends JPanel {
 	}
 	
 	/*주문 정보 클릭 이벤트 리스너*/
-	class OrderPanelEventListener extends MouseAdapter {
+	private class OrderPanelEventListener extends MouseAdapter {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {

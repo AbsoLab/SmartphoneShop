@@ -20,6 +20,7 @@ import back.Set;
 import main.MainFrame;
 import structure.Goods;
 
+/*상품 목록을 띄워주는 패널입니다.*/
 public class GoodsListPanel extends JPanel{
 	
 	private JPanel category_panel;
@@ -88,7 +89,7 @@ public class GoodsListPanel extends JPanel{
 	}
 	
 	/*상품 패널*/
-	class GoodsPanel extends JPanel {
+	private class GoodsPanel extends JPanel {
 		
 		private Image img;
 		private JLabel goods_image_label;
@@ -154,7 +155,7 @@ public class GoodsListPanel extends JPanel{
 	}
 	
 	/*페이지 패널*/
-	class PagePanel extends JPanel {
+	private class PagePanel extends JPanel {
 		
 		private JLabel [] page_num_label;
 
@@ -206,7 +207,7 @@ public class GoodsListPanel extends JPanel{
 	}
 	
 	/*카테고리 버튼 이벤트 리스너*/
-	class CategoryButtonListener implements ActionListener {
+	private class CategoryButtonListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {

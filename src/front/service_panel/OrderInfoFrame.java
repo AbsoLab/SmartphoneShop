@@ -15,6 +15,7 @@ import main.MainFrame;
 import structure.Order;
 import structure.ShoppingKart;
 
+/*주문 목록에서 특정 주문 선택 시 정보를 출력해주는 다이얼로그입니다.*/
 public class OrderInfoFrame extends JDialog {
 
 	private OrderListPanel order_list_panel;
@@ -49,7 +50,7 @@ public class OrderInfoFrame extends JDialog {
 	}
 	
 	/*주문 목록 패널*/
-	class OrderListPanel extends JPanel {
+	private class OrderListPanel extends JPanel {
 		
 		private JScrollPane scroll_pane;
 		private JPanel scroll_input_panel;
@@ -128,7 +129,7 @@ public class OrderInfoFrame extends JDialog {
 	}
 
 	/*주문 정보 패널*/
-	class OrderInfoPanel extends JPanel {
+	private class OrderInfoPanel extends JPanel {
 
 		private JLabel [] info_name_label;
 		private JLabel [] info_value_label;
@@ -145,6 +146,7 @@ public class OrderInfoFrame extends JDialog {
 			panel_name.setFont(new Font("맑은 고딕", Font.BOLD, 17));
 			add(panel_name);
 			
+			/*각 정보 이름*/
 			String [] info_name = {"이름", "주소", "연락처"};
 			info_name_label = new JLabel[info_name.length];
 			for (int i=0; i<info_name.length; ++i) {
@@ -154,6 +156,7 @@ public class OrderInfoFrame extends JDialog {
 				add(info_name_label[i]);
 			}
 			
+			/*각 정보 값*/
 			String [] info_value = {order.get_name(), order.get_address(), order.get_phone_num()};
 			info_value_label = new JLabel[info_name.length];
 			for (int i=0; i<info_name.length; ++i) {
@@ -167,7 +170,7 @@ public class OrderInfoFrame extends JDialog {
 	}
 
 	/*결제 정보 패널*/
-	class OrderPaymentPanel extends JPanel {
+	private class OrderPaymentPanel extends JPanel {
 
 		private JLabel [] info_name_label;
 		private JLabel [] info_value_label;

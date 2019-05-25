@@ -19,6 +19,7 @@ import main.MainFrame;
 import structure.Order;
 import structure.ShoppingKart;
 
+/*구매 클릭시 나타나는 다이얼로그입니다.*/
 public class PurchaseFrame extends JDialog {
 	
 	private JLabel delivery_label;
@@ -131,7 +132,7 @@ public class PurchaseFrame extends JDialog {
 	}
 	
 	/*입력 개수 제한*/
-	class LimitLengthEvnetListener extends KeyAdapter {
+	private class LimitLengthEvnetListener extends KeyAdapter {
 
 		private int separator;
 		
@@ -171,7 +172,7 @@ public class PurchaseFrame extends JDialog {
 	}
 	
 	/*구매, 취소 버튼 이벤트 리스너*/
-	class ButtonEventListener implements ActionListener {
+	private class ButtonEventListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {

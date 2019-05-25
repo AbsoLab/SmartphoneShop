@@ -42,22 +42,22 @@ public class Set {
 
 	/*전체 상품 목록 로딩*/
 	public Goods [] GetGoodsList() {
-		return DBMS.getGoodsManager().get_all_goods();		
+		return DBMS.getGoodsManager().GetAllGoods();		
 	}
 	
 	/*스마트폰만 로딩*/
 	public Smartphone [] GetSmartphoneList() {
-		return DBMS.getGoodsManager().get_smartphone();
+		return DBMS.getGoodsManager().GetSmartphones();
 	}
 	
 	/*악세사리만 로딩*/
 	public Goods [] GetAccessoryList() {
-		return DBMS.getGoodsManager().get_accessory();
+		return DBMS.getGoodsManager().GetAccessories();
 	}
 	
 	/*기타만 로딩*/
 	public Goods [] GetEtcList() {
-		return DBMS.getGoodsManager().get_etc();
+		return DBMS.getGoodsManager().GetEtc();
 	}
 	
 	/*장바구니 추가*/
@@ -77,7 +77,7 @@ public class Set {
 	
 	/*장바구니 상품 개수 변경*/
 	public boolean SetKartListNum(String name, int num) {
-		return DBMS.getShoppingKartManager().setKartNum(logined_id, name, num);
+		return DBMS.getShoppingKartManager().SetKartNum(logined_id, name, num);
 	}
 	
 	/*구매*/
@@ -94,12 +94,12 @@ public class Set {
 	
 	/*주문 목록 불러오기*/
 	public Order [] GetOrderList() {
-		return DBMS.getOrderManager().get_order_list(logined_id);
+		return DBMS.getOrderManager().GetOrderList(logined_id);
 	}
 	
 	/*주문 번호에 해당하는 상품목록 불러오기*/
 	public ShoppingKart [] GetOrderKartList(int order_num) {
-		return DBMS.getOrderManager().get_order_kart_list(logined_id, order_num);
+		return DBMS.getOrderManager().GetOrderGoods(logined_id, order_num);
 	}
 		
 	/*계정 정보 불러오기*/

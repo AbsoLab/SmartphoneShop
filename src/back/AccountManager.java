@@ -19,8 +19,7 @@ public class AccountManager {
 	public boolean AddNewAccount(User user) {
 		
 		String sql;
-		sql = "insert into ACCOUNT values(\"" + user.get_ID() + "\", \"" + user.get_PW() + "\", \"" + user.get_name() + "\", " + user.get_birth_date() + ")";
-		
+		sql = "INSERT INTO account VALUES('" + user.get_ID() + "', '" + user.get_PW() + "', '" + user.get_name() + "', " + user.get_birth_date() + ")";	
 		try { st.executeUpdate(sql); } catch (Exception e) { return false; }
 		
 		return true;
@@ -46,16 +45,16 @@ public class AccountManager {
 	public User GetAccount(String ID) {
 		
 		User user = null;
-		String sql = "SELECT * FROM ACCOUNT where id='" + ID + "'";
+		String sql = "SELECT * FROM account WHERE id='" + ID + "'";
 		ResultSet rs;
 		
 		try {
 			rs = st.executeQuery(sql);
-			rs.next();
+			rs.last();
 			user = new User(rs.getString("id"), rs.getString("pw"), rs.getString("name"), rs.getInt("birth_date"));
 			rs.close();
 			
-		} catch (Exception e) { }
+		} catch (Exception e) {}
 		
 		return user;
 	}
@@ -63,37 +62,26 @@ public class AccountManager {
 	/*ID PW가 둘다 맞는 지 확인*/
 	public boolean Login(String ID, String PW) {
 		
-		String sql;
-		sql = "SELECT * FROM ACCOUNT";
+		boolean result = false;
+		String sql = "SELECT * FROM account WHERE id='" + ID + "' AND pw='" + PW + "'";
 		ResultSet rs;
 		
 		try {
 			rs = st.executeQuery(sql);
-			
-			while(rs.next()) {
-				
-				if (ID.equals(rs.getString("id"))) {
-					
-					if (PW.equals(rs.getString("pw"))) {
-						
-						return true;
-						
-					} else {
-						
-						return false;
-					}
-				}
+			rs.last();
+			if (rs.getRow() == 1) {
+				result = true;
 			}
 			rs.close();
 		} catch (Exception e) { }
 		
-		return false;
+		return result;
 		
 	}
 
 	/*정보 변경*/
 	public boolean ChangeAccountInfo(User user) {
-		String sql = "update ACCOUNT set pw='" + user.get_PW() +"', name='" + user.get_name() + "', birth_date=" + user.get_birth_date() + " where id='" + user.get_ID() + "'";
+		String sql = "UPDATE account SET pw='" + user.get_PW() +"', name='" + user.get_name() + "', birth_date=" + user.get_birth_date() + " where id='" + user.get_ID() + "'";
 		try {
 			return st.execute(sql);
 		} catch (SQLException e) {

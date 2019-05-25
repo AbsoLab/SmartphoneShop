@@ -20,7 +20,7 @@ import javax.swing.event.DocumentListener;
 import back.Set;
 import main.MainFrame;
 
-
+/*회원가입 선택 시 켜지는 다이얼로그입니다.*/
 public class RegisterAccountFrame extends JDialog {
 
 	private JLabel[] info_label;
@@ -30,7 +30,7 @@ public class RegisterAccountFrame extends JDialog {
 	private JLabel collect_pw_label;
 	
 	private Set set;
-	private boolean check_duplication = false;
+	private boolean check_duplication = false;		// 중복확인을 눌렀는지 확인하는 용도
 	
 	public RegisterAccountFrame(MainFrame mf, Set set) {
 		super(mf, true);	// 기존 창 선택 불가
@@ -64,6 +64,7 @@ public class RegisterAccountFrame extends JDialog {
 			textField[i].addKeyListener(new KeyInputListener(i));
 			add(textField[i]);
 		}
+		textField[1].getDocument().addDocumentListener(new IDEventListener() );
 		textField[1].getDocument().addDocumentListener(new PWEventListener());
 		textField[2].getDocument().addDocumentListener(new PWEventListener());
 		
@@ -113,7 +114,7 @@ public class RegisterAccountFrame extends JDialog {
 			switch(btn.getText()) {
 			
 			case "중복 확인":
-				
+		
 				String ID = textField[0].getText();
 				if (ID.length() < 6) {
 					JOptionPane.showMessageDialog(null, "최소 6자 이상 적어주세요.");
@@ -154,6 +155,29 @@ public class RegisterAccountFrame extends JDialog {
 		
 	}
 
+	/*아이디 변경 확인 이벤트 리스너*/
+	private class IDEventListener implements DocumentListener {
+
+		@Override
+		public void insertUpdate(DocumentEvent e) {
+			// TODO Auto-generated method stub
+			check_duplication = false;
+		}
+
+		@Override
+		public void removeUpdate(DocumentEvent e) {
+			// TODO Auto-generated method stub
+			check_duplication = false;
+		}
+
+		@Override
+		public void changedUpdate(DocumentEvent e) {
+			// TODO Auto-generated method stub
+			check_duplication = false;
+		}
+		
+	}
+	
 	/*비밀번호 확인 이벤트 리스너*/
 	private class PWEventListener implements DocumentListener {
 

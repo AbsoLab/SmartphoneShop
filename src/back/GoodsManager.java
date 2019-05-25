@@ -27,22 +27,19 @@ public class GoodsManager {
 	}
 	
 	/*전체 상품 목록을 받아온다.*/
-	public Goods [] get_all_goods() {
+	public Goods [] GetAllGoods() {
 		
 		Goods [] goods_list = null;
-		int index = 0;		
-		String sql = "select * from GOODS as g left join SMARTPHONE as s on g.name = s.name";
+		int index = 0;
 		
-		ResultSet rs;
+		String sql = "SELECT * FROM goods AS g LEFT JOIN smartphone AS s ON g.name = s.name";
 		
 		try {
-		
-			rs = st.executeQuery(sql);
+			ResultSet rs = st.executeQuery(sql);
 			rs.last(); goods_list = new Goods[rs.getRow()]; rs.first();
-		
 			do {
 				
-				if (rs.getInt("category") == 1) {
+				if (rs.getInt("category") == 0) {
 					goods_list[index] = new Smartphone(rs.getString("name"), rs.getInt("price"), rs.getInt("category"), rs.getString("explanation"));
 					((Smartphone)goods_list[index]).set_manufacturing_compay(rs.getString("company"));
 					((Smartphone)goods_list[index]).set_release_date(rs.getString("release_date"));
@@ -50,30 +47,26 @@ public class GoodsManager {
 				} else {
 					goods_list[index] = new Goods(rs.getString("name"), rs.getInt("price"), rs.getInt("category"), rs.getString("explanation"));
 				}
-				index++;
-				
+				index++;	
 			} while(rs.next());
 
 			rs.close();
 			
-		} catch (Exception e) {System.out.println("하아");}
+		} catch (Exception e) {}
 		
 		return goods_list;
 	}
 
 	/*스마트폰만 받아온다.*/
-	public Smartphone [] get_smartphone() {
+	public Smartphone [] GetSmartphones() {
 		
 		Smartphone [] smartphone_list = null;
-		
 		int index = 0;		
-		String sql = " select * from GOODS natural join SMARTPHONE";
 		
-		ResultSet rs;
-		
+		String sql = "SELECT * FROM goods NATURAL JOIN smartphone";
+
 		try {
-		
-			rs = st.executeQuery(sql);
+			ResultSet rs = st.executeQuery(sql);
 			rs.last(); smartphone_list = new Smartphone[rs.getRow()]; rs.first();
 		
 			do {
@@ -82,79 +75,73 @@ public class GoodsManager {
 				smartphone_list[index].set_release_date(rs.getString("release_date"));
 				smartphone_list[index].set_spec(rs.getString("cpu"), rs.getString("display"), rs.getString("battery_size"), rs.getString("RAM"), rs.getString("ROM"));
 
-				index++;
-				
+				index++;		
 			} while(rs.next());
 
 			rs.close();
 			
-		} catch (Exception e) {System.out.println("하아");}
+		} catch (Exception e) {}
 		
 		return smartphone_list;
 	}
 	
 	/*악세사리만 받아온다.*/
-	public Goods [] get_accessory() {
+	public Goods [] GetAccessories() {
+		
 		Goods [] goods_list = null;
 		int index = 0;		
-		String sql = "select * from GOODS where category=1";
 		
-		ResultSet rs;
+		String sql = "SELECT * FROM goods WHERE category=1";
 		
 		try {
-		
-			rs = st.executeQuery(sql);
+			ResultSet rs = st.executeQuery(sql);
 			rs.last(); goods_list = new Goods[rs.getRow()]; rs.first();
 		
 			do {
 				goods_list[index] = new Goods(rs.getString("name"), rs.getInt("price"), rs.getInt("category"), rs.getString("explanation"));
-				index++;
-				
+				index++;	
 			} while(rs.next());
 
 			rs.close();
 			
-		} catch (Exception e) {System.out.println("하아");}
+		} catch (Exception e) {}
 		
 		return goods_list;
 	}
 	
 	/*기타만 받아온다.*/
-	public Goods [] get_etc() {
+	public Goods [] GetEtc() {
+		
 		Goods [] goods_list = null;
 		int index = 0;		
-		String sql = "select * from GOODS where category=2";
 		
-		ResultSet rs;
-		
+		String sql = "SELECT * FROM goods WHERE category=2";
+	
 		try {
-		
-			rs = st.executeQuery(sql);
+			ResultSet rs = st.executeQuery(sql);
 			rs.last(); goods_list = new Goods[rs.getRow()]; rs.first();
 		
 			do {
 				goods_list[index] = new Goods(rs.getString("name"), rs.getInt("price"), rs.getInt("category"), rs.getString("explanation"));
 				index++;
-				
 			} while(rs.next());
 
 			rs.close();
 			
-		} catch (Exception e) {System.out.println("하아");}
+		} catch (Exception e) {}
 		
 		return goods_list;
 	}
 	
 	/*상품 추가*/
 	public boolean add_new_goods(Goods goods, String img_url) {
-		try {
-			
-			String sql = "insert into goods values('" + goods.get_name() + "', " + goods.get_price() + ", " + goods.get_category() + ", '" + goods.get_explanation() +"')";
+		try {	
+			String sql = "INSERT INTO goods VALUES('" + goods.get_name() + "', " + goods.get_price() + ", " + goods.get_category() + ", '" + goods.get_explanation() +"')";
 			st.execute(sql);
 			
 			if (goods.get_category() == 0) {
 				Smartphone ph = (Smartphone)goods;
-				sql = "insert into smartphone values('" + ph.get_name() + "', '" + ph.get_manufacturing_company() + "', '" + ph.get_release_date() + "', '" + ph.get_spec().cpu + "', '" + ph.get_spec().display + "', '" + ph.get_spec().battery_size + "', '" + ph.get_spec().RAM + "', '" + ph.get_spec().RAM + "')";
+				sql = "INSERT INTO smartphone VALUES('" + ph.get_name() + "', '" + ph.get_manufacturing_company() + "', '" + ph.get_release_date() + "', '" + ph.get_spec().cpu + "', '" + ph.get_spec().display + "', '" + ph.get_spec().battery_size + "', '" + ph.get_spec().RAM + "', '" + ph.get_spec().RAM + "')";
 				st.execute(sql);
 			}
 			
@@ -162,14 +149,12 @@ public class GoodsManager {
 			File imgfile = new File(img_url);
 			FileInputStream fin = new FileInputStream(imgfile);
 
-			PreparedStatement pre = connection.prepareStatement("insert into image_table values ('" + goods.get_name() + "', ?)");
+			PreparedStatement pre = connection.prepareStatement("INSERT INTO image_table VALUES('" + goods.get_name() + "', ?)");
 			pre.setBinaryStream(1, fin, (int)imgfile.length());
 			pre.executeUpdate();
 			pre.close();
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			return false;
 		}
 		
@@ -181,7 +166,7 @@ public class GoodsManager {
 
 		boolean result = true;
 		
-		String sql = "select * from ACCOUNT where id='" + name + "'";
+		String sql = "SELECT * FROM goods WHERE name='" + name + "'";
 		try {
 			ResultSet rs = st.executeQuery(sql);
 			rs.last();
@@ -189,20 +174,18 @@ public class GoodsManager {
 				result = false;
 			}
 			rs.close();
-		} catch (SQLException e) {
-			result = false;
-		}
+		} catch (SQLException e) {result = false;}
 		return result;
 	}
 	
 	/*이미지 받아오기*/
 	public Image get_image(String name) {
 		
-		String sql = "select IMAGE from IMAGE_TABLE where name='" + name + "'";
-		ResultSet rs;
+		String sql = "SELECT image FROM image_table WHERE name='" + name + "'";
 		Image img = null;
+		
 		try {
-			rs = st.executeQuery(sql);
+			ResultSet rs = st.executeQuery(sql);
 			if (rs.first()) {
 				InputStream is = rs.getBinaryStream("IMAGE");
 				img = ImageIO.read(is);				
@@ -216,12 +199,12 @@ public class GoodsManager {
 	public boolean delete_goods(String name, int category) {
 		String sql; 
 		try {
-			sql = "delete from GOODS where name='" + name + "'";
+			sql = "DELETE FROM goods WHERE name='" + name + "'";
 			st.execute(sql);
-			sql = "delete from IMAGE_TABLE where name='" + name + "'";
+			sql = "DELETE FROM image_table WHERE name='" + name + "'";
 			st.execute(sql);
 			if (category == 0) {
-				sql = "delete from SMARTPHONE where name='" + name + "'";
+				sql = "DELETE FROM smartphone WHERE name='" + name + "'";
 				st.execute(sql);	
 			}
 		} catch (Exception e) {

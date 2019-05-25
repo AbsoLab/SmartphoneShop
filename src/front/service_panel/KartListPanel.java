@@ -18,6 +18,7 @@ import back.Set;
 import main.MainFrame;
 import structure.ShoppingKart;
 
+/*장바구니 목록을 띄워주는 패널입니다.*/
 public class KartListPanel extends JPanel{
 	
 	private JPanel kart_list_panel;
@@ -66,7 +67,7 @@ public class KartListPanel extends JPanel{
 	}
 	
 	/*상품 패널*/
-	class KartPanel extends JPanel {
+	private class KartPanel extends JPanel {
 		
 		private JLabel kart_name_label;
 		private JLabel kart_count_label;
@@ -149,7 +150,7 @@ public class KartListPanel extends JPanel{
 		}
 		
 		/*개수 증가 감소 버튼 이벤트 리스너*/
-		class KartButtonEventListener implements ActionListener {
+		private class KartButtonEventListener implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -173,7 +174,7 @@ public class KartListPanel extends JPanel{
 	}
 
 	/*페이지 패널*/
-	class PagePanel extends JPanel {
+	private class PagePanel extends JPanel {
 		
 		private JLabel [] page_num_label;
 
@@ -201,12 +202,13 @@ public class KartListPanel extends JPanel{
 			repaint();
 		}
 		
+		/*선택된 페이지 색칠*/
 		public void select_page(int page) {
 			page_num_label[page].setForeground(Color.BLUE);
 		}
 		
 		/*페이지 숫자 이벤트 리스너*/
-		class MouseActionListener extends MouseAdapter {
+		private class MouseActionListener extends MouseAdapter {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -225,7 +227,7 @@ public class KartListPanel extends JPanel{
 	}
 	
 	/*구매 비우기 버튼 이벤트 리스너*/
-	class ButtonEventListener implements ActionListener {
+	private class ButtonEventListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
