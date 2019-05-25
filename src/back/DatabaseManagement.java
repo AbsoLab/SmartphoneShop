@@ -32,7 +32,7 @@ public class DatabaseManagement {
 			order_manager = new OrderManager(statement);
 			
 		} catch(Exception e) {
-			System.out.println("실패~");
+			System.out.println("데이타베이스 연결에 실패하였습니다.");
 		}
 	}
 	

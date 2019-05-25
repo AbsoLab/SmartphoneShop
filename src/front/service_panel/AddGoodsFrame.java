@@ -75,10 +75,13 @@ public class AddGoodsFrame extends JDialog{
 			goods_info_value_textField[i].setLocation(110, 12+30*i);
 			add(goods_info_value_textField[i]);
 		}
+		
 		goods_info_value_textField[0].setSize(200, 25);
 		goods_info_value_textField[1].setSize(70, 25);
 		goods_info_value_textField[2].setSize(70, 25);
 		
+		goods_info_value_textField[0].addKeyListener(new LimitLengthEventListener(40));
+		goods_info_value_textField[1].setEnabled(false);
 		goods_info_value_textField[2].addKeyListener(new LimitKeyInputListener());
 		
 		/*이미지 첨부 버튼 생성*/
@@ -130,14 +133,12 @@ public class AddGoodsFrame extends JDialog{
 			smartphone_info_value_textField[i].setLocation(110, 223 + 30*i);
 			add(smartphone_info_value_textField[i]);
 		}
-		smartphone_info_value_textField[0].setSize(200, 24);
-		smartphone_info_value_textField[1].setSize(70, 24);
-		smartphone_info_value_textField[2].setSize(200, 24);
-		smartphone_info_value_textField[3].setSize(200, 24);
-		smartphone_info_value_textField[4].setSize(70, 24);
-		smartphone_info_value_textField[5].setSize(70, 24);
-		smartphone_info_value_textField[6].setSize(70, 24);
 		
+		int [] width = {200, 70, 200, 200, 70, 70, 70};
+		for (int i=0; i<width.length; ++i) {
+			smartphone_info_value_textField[i].setSize(width[i], 24);	
+		}
+
 		smartphone_info_value_textField[1].setHorizontalAlignment(JTextField.CENTER);
 		smartphone_info_value_textField[4].setHorizontalAlignment(JTextField.CENTER);
 		smartphone_info_value_textField[5].setHorizontalAlignment(JTextField.CENTER);
@@ -147,6 +148,11 @@ public class AddGoodsFrame extends JDialog{
 		smartphone_info_value_textField[4].addKeyListener(new LimitKeyInputListener());
 		smartphone_info_value_textField[5].addKeyListener(new LimitKeyInputListener());
 		smartphone_info_value_textField[6].addKeyListener(new LimitKeyInputListener());
+		
+		int [] limit_length = {20, 8, 80, 80, 5, 4, 4};
+		for (int i=0; i<limit_length.length; ++i) {
+			smartphone_info_value_textField[i].addKeyListener(new LimitLengthEventListener(limit_length[i]));
+		}
 		
 		/*생산년도 안내*/
 		guide_label = new JLabel("YYYYMMDD");
@@ -250,6 +256,23 @@ public class AddGoodsFrame extends JDialog{
 		}	
 	}
 	
+	/*키 입력 개수 제한*/
+	private class LimitLengthEventListener extends KeyAdapter {
+		
+		private int max_length = 0;
+		
+		public LimitLengthEventListener(int length) {
+			max_length = length;
+		}
+		
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			JTextField textField = (JTextField)e.getSource();
+			if (textField.getText().length() >= max_length) e.consume();
+		}	
+	}
+	
 	/*스마트폰 정보 입력 허용-잠금*/
 	private void lock_textField(boolean bool) {
 		for (int i=0; i<smartphone_info_value_textField.length; ++i) {
@@ -272,7 +295,10 @@ public class AddGoodsFrame extends JDialog{
 	/*파일 첨부 버튼 클릭*/
 	private void open_file() {
 		JFileChooser jfc = new JFileChooser();
-		jfc.setFileFilter(new FileNameExtensionFilter("jpg", "jpeg", "png"));
+		jfc.setAcceptAllFileFilterUsed(false);
+		jfc.setFileFilter(new FileNameExtensionFilter("*.jpg", "jpg"));
+		jfc.setFileFilter(new FileNameExtensionFilter("*.jpeg", "jpeg"));
+		jfc.setFileFilter(new FileNameExtensionFilter("*.png", "png"));
         if(jfc.showSaveDialog(null) == 0) {
             goods_info_value_textField[1].setText(jfc.getSelectedFile().toString());
         }

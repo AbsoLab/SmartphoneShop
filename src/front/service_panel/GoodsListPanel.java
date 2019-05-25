@@ -134,6 +134,7 @@ public class GoodsListPanel extends JPanel{
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				new GoodsInfoFrame(mf, set, goods);
+				show_goods_list_page(select, 0);
 			}
 
 			@Override
@@ -234,6 +235,7 @@ public class GoodsListPanel extends JPanel{
 				break;
 			case "상품추가":
 				new AddGoodsFrame(mf, set);
+				show_goods_list_page(select, 0);
 				break;
 				
 			}
@@ -261,7 +263,7 @@ public class GoodsListPanel extends JPanel{
 
 		goods_list_panel.removeAll();
 			
-		page_panel.update_page(goods_list.length / 4 + 1);
+		page_panel.update_page( (goods_list.length - 1) / 4 + 1);
 		page_panel.select_page(current_page_num);
 		
 		for (int i=0; i<4; ++i) {

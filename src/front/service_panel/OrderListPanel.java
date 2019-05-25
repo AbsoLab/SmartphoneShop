@@ -180,7 +180,7 @@ public class OrderListPanel extends JPanel {
 		order_list = set.GetOrderList();
 		order_list_panel.removeAll();
 		
-		page_panel.update_page(order_list.length / 4 + 1);
+		page_panel.update_page((order_list.length - 1) / 4 + 1);
 		page_panel.select_page(current_page_num);
 
 		for (int i=0; i<4; ++i) {

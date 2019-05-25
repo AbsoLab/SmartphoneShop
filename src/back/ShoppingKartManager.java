@@ -90,13 +90,11 @@ public class ShoppingKartManager {
 			order_num++;
 			
 			/*주문 번호 갱신*/
-			sql = "UPDATA meta_data SET order_number=" + (order_num);
+			sql = "UPDATE meta_data SET order_number=" + (order_num);
 			st.execute(sql);
-			
 			sql = "INSERT INTO order_info VALUES('" + ID + "', '" + order.get_name() + "', '" + order.get_address() + "', '" + order.get_phone_num() + "', '" + order.get_card_corporation() + "', '" + order.get_card_num() + "', " + order.get_total_price() + ", " + order_num + ")";
 			st.execute(sql);
 			ShoppingKart [] kart = GetKartList(ID);
-			
 			for (int i=0; i<kart.length; ++i) {
 				sql = "INSERT INTO order_list VALUES(" + order_num + ", '" + kart[i].get_name() + "', " + kart[i].get_count() + ", " + kart[i].get_price() + ")";
 				st.execute(sql);

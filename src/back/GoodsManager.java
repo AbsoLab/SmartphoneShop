@@ -136,6 +136,16 @@ public class GoodsManager {
 	/*상품 추가*/
 	public boolean add_new_goods(Goods goods, String img_url) {
 		try {	
+			/*이미지 저장*/
+			File imgfile = new File(img_url);
+			FileInputStream fin = new FileInputStream(imgfile);
+			
+			PreparedStatement pre = connection.prepareStatement("INSERT INTO image_table VALUES('" + goods.get_name() + "', ?)");
+			pre.setBinaryStream(1, fin, (int)imgfile.length());
+			pre.executeUpdate();
+			pre.close();
+
+			
 			String sql = "INSERT INTO goods VALUES('" + goods.get_name() + "', " + goods.get_price() + ", " + goods.get_category() + ", '" + goods.get_explanation() +"')";
 			st.execute(sql);
 			
@@ -145,14 +155,6 @@ public class GoodsManager {
 				st.execute(sql);
 			}
 			
-			/*이미지 저장*/
-			File imgfile = new File(img_url);
-			FileInputStream fin = new FileInputStream(imgfile);
-
-			PreparedStatement pre = connection.prepareStatement("INSERT INTO image_table VALUES('" + goods.get_name() + "', ?)");
-			pre.setBinaryStream(1, fin, (int)imgfile.length());
-			pre.executeUpdate();
-			pre.close();
 
 		} catch (Exception e) {
 			return false;

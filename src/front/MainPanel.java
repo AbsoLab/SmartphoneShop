@@ -43,6 +43,8 @@ public class MainPanel extends JPanel {
 		service_panel.setBackground(new Color(255, 255, 255));
 		service_panel.setBounds(0, 41, 1280, 679);
 		add(service_panel);
+		
+		service_panel.add(new GoodsListPanel(mf, set));
 	}
 	
 	/*서비스 선택 패널*/

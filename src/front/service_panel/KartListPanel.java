@@ -36,11 +36,11 @@ public class KartListPanel extends JPanel{
 		this.set = set;
 		
 		setLayout(null);
-		setBackground(Color.WHITE);
 		
 		/*장바구니 목록 패널*/
 		kart_list_panel = new JPanel();
 		kart_list_panel.setLayout(null);
+		kart_list_panel.setBackground(Color.WHITE);
 		kart_list_panel.setBounds(180, 50, 900, 450);
 		add(kart_list_panel);
 		
@@ -83,7 +83,8 @@ public class KartListPanel extends JPanel{
 			this.kart = kart;
 			
 			setLayout(null);
-
+			
+			
 			/*상품 이름 출력*/
 			kart_name_label = new JLabel(kart.get_name());
 			kart_name_label.setFont(new Font("맑은 고딕", Font.BOLD, 17));
@@ -180,7 +181,7 @@ public class KartListPanel extends JPanel{
 
 		public PagePanel() {
 			
-			//setBackground(Color.white);
+			setBackground(Color.white);
 		}
 		
 		/*페이지 개수 갱신*/
@@ -252,7 +253,7 @@ public class KartListPanel extends JPanel{
 		kart_list = set.get_kart_list();
 		kart_list_panel.removeAll();		
 		
-		page_panel.update_page(kart_list.length / 4 + 1);
+		page_panel.update_page((kart_list.length - 1) / 4 + 1);
 		page_panel.select_page(current_page_num);
 
 		for (int i=0; i<4; ++i) {

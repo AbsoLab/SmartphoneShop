@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -25,7 +26,7 @@ public class PurchaseFrame extends JDialog {
 	private JLabel delivery_label;
 	private JLabel payment_label;
 	private JLabel [] info_label;
-	private JTextField [] info_textfield;
+	private JTextField [] info_textField;
 	private JLabel total_price_label;
 	private JButton [] button;
 	
@@ -38,7 +39,6 @@ public class PurchaseFrame extends JDialog {
 		super(mf, true);
 	
 		this.set = set;
-		
 		setLayout(null);
 		
 		/*총 합 금액 계산*/
@@ -78,33 +78,41 @@ public class PurchaseFrame extends JDialog {
 		}
 		
 		/*정보를 입력받을 칸*/
-		info_textfield = new JTextField[7];
+		info_textField = new JTextField[label_name.length];
 		for (int i=0; i<3; ++i) {
-			info_textfield[i] = new JTextField();
-			info_textfield[i].setFont(new Font("맑은 고딕", Font.BOLD, 15));
-			info_textfield[i].setLocation(150, 50 + 40 * i);
-			info_textfield[i].addKeyListener(new LimitLengthEvnetListener(i));
-			add(info_textfield[i]);
+			info_textField[i] = new JTextField();
+			info_textField[i].setFont(new Font("맑은 고딕", Font.BOLD, 15));
+			info_textField[i].setLocation(150, 50 + 40 * i);
+			info_textField[i].setHorizontalAlignment(JTextField.CENTER);
+			info_textField[i].addKeyListener(new LimitLengthEvnetListener(i));
+			add(info_textField[i]);
 		}
+		info_textField[1].setHorizontalAlignment(JTextField.LEFT);
+		
 		for (int i=3; i<7; ++i) {
 			if (i==5 || i==6) {
-				info_textfield[i]= new JPasswordField();
-				info_textfield[i].setHorizontalAlignment(JTextField.CENTER);
+				info_textField[i]= new JPasswordField();
+				info_textField[i].addKeyListener(new LimitInputEventListener());
 			} else {				
-				info_textfield[i]= new JTextField();
+				info_textField[i]= new JTextField();
 			}
-			info_textfield[i].setFont(new Font("맑은 고딕", Font.BOLD, 15));
-			info_textfield[i].setLocation(150, 100 + 40 * i);
-			info_textfield[i].addKeyListener(new LimitLengthEvnetListener(i));
-			add(info_textfield[i]);
+			info_textField[i].setHorizontalAlignment(JTextField.CENTER);
+			info_textField[i].setFont(new Font("맑은 고딕", Font.BOLD, 15));
+			info_textField[i].setLocation(150, 100 + 40 * i);
+			info_textField[i].addKeyListener(new LimitLengthEvnetListener(i));
+			add(info_textField[i]);
 		}
-		info_textfield[0].setSize(90, 30);
-		info_textfield[1].setSize(400, 30);
-		info_textfield[2].setSize(150, 30);
-		info_textfield[3].setSize(90, 30);
-		info_textfield[4].setSize(200, 30);
-		info_textfield[5].setSize(90, 30);
-		info_textfield[6].setSize(90, 30);
+		
+		info_textField[0].setSize(90, 30);
+		info_textField[1].setSize(400, 30);
+		info_textField[2].setSize(200, 30);
+		info_textField[3].setSize(90, 30);
+		info_textField[4].setSize(200, 30);
+		info_textField[5].setSize(90, 30);
+		info_textField[6].setSize(90, 30);
+		
+		info_textField[2].addKeyListener(new LimitInputEventListener());
+		info_textField[4].addKeyListener(new LimitInputEventListener());
 		
 		/*최종 결제 금액*/
 		total_price_label = new JLabel("총 " + Integer.toString(total_price) + "원 입니다.");
@@ -148,16 +156,19 @@ public class PurchaseFrame extends JDialog {
 			int max_length = 0;
 			switch(separator) {
 			case 0:
-				max_length = 20;
+				max_length = 40;
 				break;
 			case 1:
 				max_length = 60;
 				break;
-			case 2: case 3:
-				max_length = 13;
+			case 2:
+				max_length = 11;
+				break;
+			case 3:
+				max_length = 20;
 				break;
 			case 4:
-				max_length = 19;
+				max_length = 16;
 				break;
 			case 5:
 				max_length = 4;
@@ -169,6 +180,21 @@ public class PurchaseFrame extends JDialog {
 			
 			if (text_field.getText().length() >= max_length) e.consume();
 		}	
+	}
+	
+	/*입력 제한*/
+	private class LimitInputEventListener extends KeyAdapter {
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			char c = e.getKeyChar();
+			
+			if (c < '0' || c > '9') {
+				e.consume();
+			}
+		}	
+		
 	}
 	
 	/*구매, 취소 버튼 이벤트 리스너*/
@@ -186,6 +212,7 @@ public class PurchaseFrame extends JDialog {
 					dispose();
 				} else {
 					// 오류 문구 출력
+					JOptionPane.showMessageDialog(null, "빈칸이 있습니다.");
 				}
 				break;
 			case "취소":
@@ -199,10 +226,10 @@ public class PurchaseFrame extends JDialog {
 	/*빈칸 확인*/
 	private boolean check_purchase() {
 		
-		String [] value = new String[info_textfield.length];
-		for (int i=0; i<info_textfield.length; ++i) {
+		String [] value = new String[info_textField.length];
+		for (int i=0; i<info_textField.length; ++i) {
 			String temp;
-			if ((temp = info_textfield[i].getText()).equals("")) return false;
+			if ((temp = info_textField[i].getText()).equals("")) return false;
 			value[i] = temp;
 		}
 		order = new Order(value[0], value[1], value[2], value[3], value[4], total_price);
