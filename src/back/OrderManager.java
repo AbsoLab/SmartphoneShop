@@ -58,4 +58,22 @@ public class OrderManager {
 		
 		return kart;
 	}
+	
+	/*주문 목록 삭제*/
+	public void DeleteOrderRecord(String name) {
+		String sql = "SELECT order_number FROM order_info WHERE name='" + name + "'";
+		int order_num ;
+		ResultSet rs;
+		try {
+			rs = st.executeQuery(sql);
+			rs.last();
+			order_num = rs.getInt("order_number");
+			
+			sql = "DELETE FROM order_info WHERE order_number=" + order_num;
+			st.execute(sql);
+			
+			sql = "DELETE FROM order_list WHERE order_number=" + order_num;
+			st.execute(sql);
+		} catch (Exception e) {}
+	}
 }

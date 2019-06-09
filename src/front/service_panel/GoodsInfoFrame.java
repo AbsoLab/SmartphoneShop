@@ -187,12 +187,12 @@ public class GoodsInfoFrame extends JDialog {
 			
 			for (int i=0; i<right_label.length; ++i) {
 				right_label[i].setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
-				right_label[i].setBounds(130, 20 + 40 * i, 380, 30);
+				right_label[i].setBounds(130, 20 + 40 * i, 580, 30);
 				add(right_label[i]);
 			}
 			
 			setResizable(false);
-			setSize(480, 360);
+			setSize(660, 360);
 			setLocationRelativeTo(mf);
 			setVisible(true);
 		}

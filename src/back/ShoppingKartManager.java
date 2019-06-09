@@ -38,25 +38,23 @@ public class ShoppingKartManager {
 	/*장바구니에 상품을 추가한다.*/
 	public boolean AddGoods(String ID, String name, int price) {
 		
-		boolean result = false;
+		boolean result = true;
 		String sql = "INSERT INTO shopping_kart VALUES('" + ID + "', '" + name + "', 1, " + price + ")";
-		
 		try {
-			result = st.execute(sql);
-		} catch (Exception e) {}
-		
+			st.execute(sql);
+		} catch (Exception e) { result = false; }
 		return result;
 	}
 	
 	/*장바구니에 삼품을 제거한다.*/
 	public boolean DeleteGoods(String ID, String name) {
 		
-		boolean result = false;
+		boolean result = true;
 		String sql = "DELETE FROM shopping_kart WHERE id='" + ID + "' AND name='" + name + "'";
 		
 		try {
-			result = st.execute(sql);
-		} catch (Exception e) {}
+			st.execute(sql);
+		} catch (Exception e) { result = false; }
 		
 		return result;
 	}
@@ -64,12 +62,12 @@ public class ShoppingKartManager {
 	/*상품의 개수를 바꾼다.*/
 	public boolean SetKartNum(String ID, String name, int num) {
 		
-		boolean result = false;
+		boolean result = true;
 		String sql = "UPDATE shopping_kart SET count=" + num + " WHERE id='" + ID + "' AND name='" + name + "'";
 		
 		try {
-			result = st.execute(sql);
-		} catch (Exception e) {}
+			st.execute(sql);
+		} catch (Exception e) { result = false; }
 		
 		return result;
 	}
@@ -107,12 +105,11 @@ public class ShoppingKartManager {
 	/*장바구니 비우기*/
 	public boolean EmptyKart(String ID) {
 		
-		boolean result = false;
+		boolean result = true;
 		String sql = "DELETE FROM shopping_kart WHERE id='" + ID + "'";
 		try {
-			result = st.execute(sql);
-		} catch (SQLException e) {}
+			st.execute(sql);
+		} catch (SQLException e) { result = false; }
 		return result;
-	}
-
+	}	
 }

@@ -116,7 +116,7 @@ public class AddGoodsFrame extends JDialog{
 		add(goods_explanation_textArea);
 		
 		/*스마트폰 정보 이름 라벨*/
-		String [] smartphone_info_name = {"제조사", "제조일자", "CPU", "Display", "Battery", "RAM", "ROM"};
+		String [] smartphone_info_name = {"제조사", "출시일자", "CPU", "Display", "Battery", "RAM", "ROM"};
 		smartphone_info_name_label = new JLabel[smartphone_info_name.length];
 		for (int i=0; i<smartphone_info_name.length; ++i) {
 			smartphone_info_name_label[i] = new JLabel(smartphone_info_name[i]);

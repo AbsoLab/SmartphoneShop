@@ -23,7 +23,7 @@ public class Set {
 	}
 	
 	/*회원 가입*/
-	public boolean RegisterAccount(String ID, String PW, String name, String birth_date) {
+	public boolean RegisterAccount(String ID, String PW, String name, int birth_date) {
 		return DBMS.getAccountManager().AddNewAccount(new User(ID, PW, name, birth_date));
 	}
 	
@@ -130,5 +130,17 @@ public class Set {
 	/*상품 삭제*/
 	public boolean DeleteGoods(Goods goods) {
 		return DBMS.getGoodsManager().delete_goods(goods.get_name(), goods.get_category());
+	}
+	
+	/*여기서부턴 테스트용 메소드 입니다.*/
+	
+	/*계정 삭제*/
+	public boolean DeleteAccount(String ID) {
+		return DBMS.getAccountManager().DeleteAccount(ID);
+	}
+	
+	/*주문기록 삭제*/
+	public void DeleteOrderRecord(String name) {
+		DBMS.getOrderManager().DeleteOrderRecord(name);
 	}
 }

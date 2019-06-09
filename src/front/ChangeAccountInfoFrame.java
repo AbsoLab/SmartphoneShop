@@ -76,6 +76,7 @@ public class ChangeAccountInfoFrame  extends JDialog {
 		}
 		textField[0].getDocument().addDocumentListener(new PWEventListener());
 		textField[1].getDocument().addDocumentListener(new PWEventListener());
+		textField[3].addKeyListener(new LimitKeyEventListener());
 		
 		/*비밀번호 경고 라벨 생성*/
 		collect_pw_label = new JLabel();
@@ -189,6 +190,21 @@ public class ChangeAccountInfoFrame  extends JDialog {
 			if (text_field.getText().length() >= max_length) e.consume();
 		}
 	}
+	
+	/*키 입력 제한 이벤트 리스너*/
+	private class LimitKeyEventListener extends KeyAdapter {
+		
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			char c = e.getKeyChar();
+			
+			if (c < '0' || c > '9') {
+				e.consume();
+			}
+		}	
+	}
+	
 	
 	/*검사*/
 	private int CheckTextField() {

@@ -151,7 +151,7 @@ public class GoodsManager {
 			
 			if (goods.get_category() == 0) {
 				Smartphone ph = (Smartphone)goods;
-				sql = "INSERT INTO smartphone VALUES('" + ph.get_name() + "', '" + ph.get_manufacturing_company() + "', '" + ph.get_release_date() + "', '" + ph.get_spec().cpu + "', '" + ph.get_spec().display + "', '" + ph.get_spec().battery_size + "', '" + ph.get_spec().RAM + "', '" + ph.get_spec().RAM + "')";
+				sql = "INSERT INTO smartphone VALUES('" + ph.get_name() + "', '" + ph.get_manufacturing_company() + "', '" + ph.get_release_date() + "', '" + ph.get_spec().cpu + "', '" + ph.get_spec().display + "', '" + ph.get_spec().battery_size + "', '" + ph.get_spec().RAM + "', '" + ph.get_spec().ROM + "')";
 				st.execute(sql);
 			}
 			

@@ -64,9 +64,10 @@ public class RegisterAccountFrame extends JDialog {
 			textField[i].addKeyListener(new KeyInputListener(i));
 			add(textField[i]);
 		}
-		textField[1].getDocument().addDocumentListener(new IDEventListener() );
+		textField[0].getDocument().addDocumentListener(new IDEventListener() );
 		textField[1].getDocument().addDocumentListener(new PWEventListener());
 		textField[2].getDocument().addDocumentListener(new PWEventListener());
+		textField[4].addKeyListener(new LimitKeyEventListener());
 		
 		/*중복 확인 버튼 생성*/
 		duplicate_check_btn = new JButton("중복 확인");
@@ -141,7 +142,7 @@ public class RegisterAccountFrame extends JDialog {
 						JOptionPane.showMessageDialog(null, "빈칸이 있습니다.");
 						break;
 					case 0:
-						set.RegisterAccount(textField[0].getText(), textField[1].getText(), textField[3].getText(), textField[4].getText());
+						set.RegisterAccount(textField[0].getText(), textField[1].getText(), textField[3].getText(), Integer.valueOf(textField[4].getText()));
 						JOptionPane.showMessageDialog(null, "회원가입되셨습니다.");
 						dispose();	
 						break;			
@@ -227,6 +228,20 @@ public class RegisterAccountFrame extends JDialog {
 			
 			if (text_field.getText().length() >= max_length) e.consume();
 		}
+	}
+	
+	/*키 입력 제한 이벤트 리스너*/
+	private class LimitKeyEventListener extends KeyAdapter {
+		
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			char c = e.getKeyChar();
+			
+			if (c < '0' || c > '9') {
+				e.consume();
+			}
+		}	
 	}
 	
 	/*가입 전 검사*/

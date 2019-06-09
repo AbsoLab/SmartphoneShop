@@ -81,11 +81,24 @@ public class AccountManager {
 
 	/*정보 변경*/
 	public boolean ChangeAccountInfo(User user) {
+		boolean result = true;
 		String sql = "UPDATE account SET pw='" + user.get_PW() +"', name='" + user.get_name() + "', birth_date=" + user.get_birth_date() + " where id='" + user.get_ID() + "'";
 		try {
-			return st.execute(sql);
+			st.execute(sql);
 		} catch (SQLException e) {
-			return false;
+			result = false;
 		}
+		return result;
+	}
+	
+	/*회원 삭제*/
+	public boolean DeleteAccount(String ID) {
+		boolean result = true;
+		String sql = "DELETE FROM account WHERE id='" + ID + "'";
+		try {
+			st.execute(sql);
+		} catch (SQLException e) { result = false; }
+		
+		return result;
 	}
 }
